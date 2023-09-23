@@ -3,14 +3,13 @@
 #include <vector>
 
 int main(int argc, const char** argv) {
-    int daftarTugasSize = 10;
-    std::string tugas_baru;
-    std::vector<std::string> daftar_tugas(daftarTugasSize), daftar_tugas_mengerjakan, daftar_tugas_selesai;
+    std::string daftar_tugas_baru;
+    std::vector<std::string> daftar_tugas, daftar_tugas_mengerjakan, daftar_tugas_selesai;
     char pilihan;
     char ulang;
     
     system("cls");
-    // Daftar tugas
+    // Task list
     daftar_tugas[0] = "1) Tugas matematika";
     daftar_tugas[1] = "2) Tugas Fisika dasar";
     daftar_tugas[2] = "3) Tugas logika pemrograman"; 
@@ -26,6 +25,7 @@ int main(int argc, const char** argv) {
     std::cout<<"\t\t\t***********************************************************************" << std::endl;
 	std::cout<<"\t\t\t                       Pengelolaan Daftar Tugas                        " << std::endl;
     std::cout<<"\t\t\t***********************************************************************\n\n" << std::endl;
+    // Looping
     do
     {
         std::cout << "Menu Utama\n" << std::endl;
@@ -40,21 +40,23 @@ int main(int argc, const char** argv) {
         switch (pilihan) {
             case '1':
                 std::cout << "Anda memilih: Tambah tugas" << std::endl;
-                // Logika untuk menambah tugas
-
+                // Logic for add task
+                std::cout << "Tugas apa yang mau anda tambahkan? ";
+                std::cin.ignore(); // Clean buffer input
+                std::getline(std::cin, daftar_tugas_baru); 
+                daftar_tugas.push_back(daftar_tugas_baru); // Add to vector
+                std::cout << "Tugas: " << daftar_tugas_baru << std::endl;
                 break;
             case '2': 
                 std::cout << "Anda memilih: Tampilkan tugas" << std::endl;
-                // Logika untuk menampilkan tugas
-                for (int i = 0; i < daftarTugasSize; i++)
-                {
-                    std::cout << daftar_tugas[i] << std::endl;
+                // Logic for view task
+                for (int i = 0; i < daftar_tugas.size(); i++) {
+                    std::cout << (i + 1) << ". " << daftar_tugas[i] << std::endl;
                 }
-                std::cout << "\nTugas baru: " << tugas_baru << std::endl;
                 break;
             case '3':
                 std::cout << "Anda memilih: Tandai tugas selesai" << std::endl;
-                // Logika untuk menandai tugas selesai
+                // Logic for check the task
                 break;
             case '4':
                 std::cout << "Anda memilih: Keluar" << std::endl;
@@ -64,7 +66,6 @@ int main(int argc, const char** argv) {
                 break;
             }
             std::cout << std::endl;
-
             std::cout << "Ingin memilih menu lain(y/n)? ";
             std::cin >> ulang;
     
