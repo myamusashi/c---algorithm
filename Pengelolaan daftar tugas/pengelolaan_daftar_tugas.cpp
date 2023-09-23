@@ -1,4 +1,9 @@
 /*
+Tugas anda
+
+-Inisialisasi Aplikasi:
+Inisialisasi aplikasi dan struktur data yang diperlukan, seperti daftar tugas (task list).
+
 -Tampilkan Menu Utama:
 Tampilkan menu utama yang memungkinkan pengguna untuk memilih tindakan yang ingin mereka lakukan, seperti menambahkan tugas baru, menampilkan daftar tugas, 
 atau menandai tugas selesai.
