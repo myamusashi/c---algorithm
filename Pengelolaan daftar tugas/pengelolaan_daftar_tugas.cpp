@@ -40,23 +40,23 @@ int main(int argc, const char** argv) {
         switch (pilihan) {
             case '1':
                 std::cout << "Anda memilih: Tambah tugas" << std::endl;
-                // Logic for add task
+                // Logic menambah tugas
                 std::cout << "Tugas apa yang mau anda tambahkan? ";
                 std::cin.ignore(); // Clean buffer input
                 std::getline(std::cin, daftar_tugas_baru); 
-                daftar_tugas.push_back(daftar_tugas_baru); // Add to vector
+                daftar_tugas.push_back(daftar_tugas_baru); // masukin ke vector
                 std::cout << "Tugas: " << daftar_tugas_baru << std::endl;
                 break;
             case '2': 
                 std::cout << "Anda memilih: Tampilkan tugas" << std::endl;
-                // Logic for view task
+                // Logic melihat tugas
                 for (int i = 0; i < daftar_tugas.size(); i++) {
                     std::cout << (i + 1) << ". " << daftar_tugas[i] << std::endl;
                 }
                 break;
             case '3':
                 std::cout << "Anda memilih: Tandai tugas selesai" << std::endl;
-                // Logic for check the task
+                // Logic tandai tugas
                 break;
             case '4':
                 std::cout << "Anda memilih: Keluar" << std::endl;
