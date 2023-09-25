@@ -32,7 +32,8 @@ int main(int argc, const char **argv) {
     std::cout << "2) Mau menandai tugas\n";
     std::cout << "3) Mau menampilkan tugas sekarang\n";
     std::cout << "4) Menampilkan tugas yang sudah selesai\n";
-    std::cout << "5) Keluar dari program\n\n" << std::endl;
+    std::cout << "5) Mau menghapus tugas" << std::endl;
+    std::cout << "6) Keluar dari program\n\n" << std::endl;
     std::cout << "Pilih menu yang mau anda lakukan(1-4): ";
     std::cin >> pilihan;
 
@@ -54,18 +55,14 @@ int main(int argc, const char **argv) {
       for (int i = 0; i < daftar_tugas.size(); i++) {
         std::cout << i << ")" << daftar_tugas[i] << std::endl;
       }
-
       // Ambil nomor dari daftar_tugas
       int nomor_tugas_selesai;
       std::cin >> nomor_tugas_selesai;
-
       // Hapus tugas yang udah selesai dari daftar_tugas
       std::string completed_task = daftar_tugas[nomor_tugas_selesai];
       daftar_tugas.erase(daftar_tugas.begin() + nomor_tugas_selesai);
-
       // Tambahkan daftar yang sudah selesai ke vector daftar_tugas_selesai
       daftar_tugas_selesai.push_back(completed_task);
-
       std::cout << "Tugas " << completed_task << " telah ditandai selesai." << std::endl;
       break;
     }
@@ -90,6 +87,23 @@ int main(int argc, const char **argv) {
     {
     }
     case '5': {
+      std::cout << "Anda memilih: Menghapus tugas" << std::endl;
+      // Logic menghapus tugas
+      std::cout << "Tugas mana yang mau anda hapus? ";
+      for (int i = 0; i < daftar_tugas.size(); i++) {
+        std::cout << i << ")" << daftar_tugas[i] << std::endl;
+      }
+      int nomor_tugas_dihapus;
+      std::cin >> nomor_tugas_dihapus;
+      std::string deleted_task = daftar_tugas[nomor_tugas_dihapus];
+      daftar_tugas.erase(daftar_tugas.begin() + nomor_tugas_dihapus);
+      std::cout << "Tugas " << deleted_task << " telah dihapus." << std::endl;
+      break;
+    }
+    case '6': {
+      std::cout << "Anda memilih: edit tugas" << std::endl;
+    }
+    case '7': {
       std::cout << "Anda memilih: Keluar" << std::endl;
       std::cout << "Terima kasih sudah menggunakan program ini" << std::endl;
       return 0;
