@@ -33,10 +33,7 @@ int main() {
   if (user_verification == username && pass_verification == password)
 {
   // Looping
-  do {
-
-    // Setiap selesai menjalankan suatu perintah diharuskan login lagi
-    
+  do {    
       std::cout << "Lanjut\n";
             std::cout << "Menu Utama\n" << std::endl;
             std::cout << "Apa yang mau anda lakukan: " << std::endl;
