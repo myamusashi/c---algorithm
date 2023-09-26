@@ -25,16 +25,18 @@ int main() {
   std::cout << "\t\t\t***********************************************************************"<< std::endl;
   std::cout << "\t\t\t                       Pengelolaan Daftar Tugas                        "<< std::endl;
   std::cout << "\t\t\t***********************************************************************\n\n"<< std::endl;
+  // Login 
+  std::cout << "Login ke program: ";
+  std::cin >> user_verification;
+  std::cout << "Masukkan password: ";
+  std::cin >> pass_verification;
+  if (user_verification == username && pass_verification == password)
+{
   // Looping
   do {
-    // Login 
-    std::cout << "Login ke program: ";
-    std::cin >> user_verification;
-    std::cout << "Masukkan password: ";
-    std::cin >> pass_verification;
+
     // Setiap selesai menjalankan suatu perintah diharuskan login lagi
-    if (user_verification == username && pass_verification == password)
-    {
+    
       std::cout << "Lanjut\n";
             std::cout << "Menu Utama\n" << std::endl;
             std::cout << "Apa yang mau anda lakukan: " << std::endl;
@@ -112,15 +114,31 @@ int main() {
             case '6': {
               std::cout << "Anda memilih: edit tugas" << std::endl;
               // Logic edit tugas
-              // Sungguh membingungkan
+              // Masih maintance
               for (int i = 0; i < daftar_tugas.size(); i++) {
                 std::cout << i << ")" << daftar_tugas[i] << std::endl;
               }
-              std::cout << "Tugas mana yang mau anda edit? "; 
               int nomor_tugas_diedit;
+              std::cout << "Tugas mana yang mau anda edit? "; 
               std::cin >> nomor_tugas_diedit;
-              for (int i = 0; i < daftar_tugas.size(); i++) {
-              
+              /* 
+              Fungsi "nomor_tugas_diedit" adalah mengambil tipe data int 
+              untuk meminta nomor yang dipilih untuk di edit dan mengecek 
+              apakah tugas yang diedit ada di daftar_tugas jika ada, maka menunggu 
+              user memasukkan string baru untuk menggantikan tugas yang 
+              lama dan memperlihatkan tugas yang sudah di edit (feature paling nyusahin)
+              */
+              if (nomor_tugas_diedit >= 0 && nomor_tugas_diedit < daftar_tugas.size())
+              {
+                std::cout << "Edit tugas: ";
+                std::cin >> daftar_tugas[nomor_tugas_diedit];
+                for (int i = 0; i < daftar_tugas.size(); i++)
+                {
+                  std::cout << i << ")" << daftar_tugas[i] << std::endl;
+                }
+              } else
+              {
+                std::cout << "Tugas tidak ditemukan" << std::endl;
               }
               break;
             }
@@ -137,12 +155,12 @@ int main() {
             std::cout << std::endl;
             std::cout << "Ingin memilih menu lain(y/n)? ";
             std::cin >> ulang;
-            } else {
-                std::cout << "Invalid";
-            }
+        
           } while (ulang != 'n');
             std::cout << "\nterima kasih sudah menggunakan program ini";
-      
+          } else {
+            return 0;
+          }  
   return 0;      
 }
  
