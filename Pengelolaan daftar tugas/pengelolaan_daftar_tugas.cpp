@@ -1,3 +1,4 @@
+#include <cctype>
 #include <iostream>
 #include <vector>
 #include <string>
@@ -15,13 +16,26 @@ std::vector<std::string> mainData {
    "english TOEFL"
 };
 
-
 void addTask(std::string daftar_tugas_baru) {
+    try {
         std::cout << "Tugas yang mau ditambahkan: ";
-        std::cin.ignore();
+        std::cin.ignore(); // Clean buffer input
         std::getline(std::cin, daftar_tugas_baru);
-        mainData.push_back(daftar_tugas_baru);
+        bool checkString = true;
+        for (char c : daftar_tugas_baru) {
+            if (!std::isdigit(c)) {
+                checkString = false;
+                break;
+            } else {
+                throw 555;
+            }
+        }
+        mainData.push_back(daftar_tugas_baru); // Push ke vector mainData
         std::cout << "Tugas baru: " << daftar_tugas_baru << std::endl;
+    } catch (int denied) {
+        std::cout << "Tidak boleh menggunakan nomor atau karakter unik\n";
+        std::cout << "Input error: " << denied;
+    }
 }
 
 std::vector<std::string> tugasSelesai {
@@ -30,15 +44,18 @@ std::vector<std::string> tugasSelesai {
 };
         
 void CompletedTask(std::string completed_task) {
-        for (int i = 0; i < mainData.size(); i++)
-        {
+/*
+Cara kode ini bekerja, data array yang dipilih untuk selesai akan di hapus di mainData 
+dan akan di pindahkan ke tugasSelesai 
+*/
+        for (int i = 0; i < mainData.size(); i++) {
             std::cout << i << ") " << mainData[i] << std::endl;
         }
         std::cout << "Tugas yang sudah selesai: ";
         int nomorTugasSelesai;
         std::cin >> nomorTugasSelesai;
         completed_task = mainData[nomorTugasSelesai];
-        mainData.erase(mainData.begin() + nomorTugasSelesai);
+        mainData.erase(mainData.begin() + nomorTugasSelesai); 
         tugasSelesai.push_back(completed_task);
         std::cout << "Tugas " << completed_task << " telah selesai" << std::endl;
 }
@@ -50,15 +67,13 @@ void viewTask() {
 }
 
 void viewFinishTask() {
-    for (int i = 0; i < tugasSelesai.size(); i++)
-    {
+    for (int i = 0; i < tugasSelesai.size(); i++) {
         std::cout << i << ") " << tugasSelesai[i] << std::endl;
     }    
 }
 
 void removeTask(std::string tugasHapus) {
-        for (int i = 0; i < mainData.size(); i++)
-        {
+        for (int i = 0; i < mainData.size(); i++) {
             std::cout << i << ") " << mainData[i] << std::endl;
         }
         std::cout << "Tugas mana yang mau dihapus";
@@ -75,21 +90,18 @@ Fungsi "editTugas" adalah mengambil input int
 untuk meminta nomor yang dipilih untuk di edit dan mengecek 
 apakah tugas yang diedit ada di mainData jika ada, maka menunggu 
 user memasukkan string baru untuk menggantikan tugas yang lama 
-dan memperlihatkan tugas yang sudah di edit (feature paling nyusahin)
+dan memperlihatkan tugas yang sudah di edit
 */
-    for (int i = 0; i < mainData.size(); i++)
-    {
+    for (int i = 0; i < mainData.size(); i++) {
         std::cout << i << ") " << mainData[i] << std::endl;
     }
     std::cout << "Tugas mana yang mau di edit: ";
     std::cin >> editTugas;
-    if (editTugas >= 0 && editTugas < mainData.size())
-    {
+    if (editTugas >= 0 && editTugas < mainData.size()) {
         std::cout << "Edit tugas: ";
         std::cout << "\n";
         std::cin >> mainData[editTugas];
-        for (int i = 0; i < mainData.size(); i++)
-        {
+        for (int i = 0; i < mainData.size(); i++) {
             std::cout << i << ") " << mainData[i] << std::endl;
         }
     } else {
@@ -104,7 +116,6 @@ int main(int argc, const char** argv) {
     char ulang;
 
     // call variable  
-    std::vector<std::string> tugas(10); 
     std::string tugas_baru, hapus_tugas, tugas_selesai; 
     int editTugas;
 
