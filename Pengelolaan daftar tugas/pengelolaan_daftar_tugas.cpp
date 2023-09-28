@@ -1,42 +1,127 @@
 #include <iostream>
-#include <string>
 #include <vector>
+#include <string>
 
-int main() {
-  std::string user_verification, username = "Admin";
-  int password = 1234, pass_verification;
-  std::vector<std::string> daftar_tugas_selesai, daftar_tugas(10);
-  std::string daftar_tugas_baru;
-  char pilihan;
-  char ulang;
+std::vector<std::string> mainData {
+   "matematika",
+   "Fisika dasar",
+   "logika pemrograman",
+   "bahasa indonesia",
+   "Basic english",
+   "PJOK",
+   "Pendidikan pancasila",
+   "agama",
+   "project kelompok",
+   "english TOEFL"
+};
 
-  daftar_tugas[0] = "Tugas matematika";
-  daftar_tugas[1] = "Tugas Fisika dasar";
-  daftar_tugas[2] = "Tugas logika pemrograman";
-  daftar_tugas[3] = "Tugas bahasa indonesia";
-  daftar_tugas[4] = "Tugas Basic english";
-  daftar_tugas[5] = "Tugas PJOK";
-  daftar_tugas[6] = "Tugas Pendidikan pancasila";
-  daftar_tugas[7] = "Tugas agama";
-  daftar_tugas[8] = "Tugas project kelompok";
-  daftar_tugas[9] = "Tugas english TOEFL";
-  
-  system("cls");
-  std::cout << "\t\t\t***********************************************************************"<< std::endl;
-  std::cout << "\t\t\t                       Pengelolaan Daftar Tugas                        "<< std::endl;
-  std::cout << "\t\t\t***********************************************************************\n\n"<< std::endl;
-  // Login 
-  std::cout << "Login ke program: ";
-  std::cin >> user_verification;
-  std::cout << "Masukkan password: ";
-  std::cin >> pass_verification;
-  if (user_verification == username && pass_verification == password)
-{
-  // Looping
-  do {    
-      std::cout << "Lanjut\n";
+
+void addTask(std::string daftar_tugas_baru) {
+        std::cout << "Tugas yang mau ditambahkan: ";
+        std::cin.ignore();
+        std::getline(std::cin, daftar_tugas_baru);
+        mainData.push_back(daftar_tugas_baru);
+        std::cout << "Tugas baru: " << daftar_tugas_baru << std::endl;
+}
+
+std::vector<std::string> tugasSelesai {
+    // I N V I S I B L E D A T A
+
+};
+        
+void CompletedTask(std::string completed_task) {
+        for (int i = 0; i < mainData.size(); i++)
+        {
+            std::cout << i << ") " << mainData[i] << std::endl;
+        }
+        std::cout << "Tugas yang sudah selesai: ";
+        int nomorTugasSelesai;
+        std::cin >> nomorTugasSelesai;
+        completed_task = mainData[nomorTugasSelesai];
+        mainData.erase(mainData.begin() + nomorTugasSelesai);
+        tugasSelesai.push_back(completed_task);
+        std::cout << "Tugas " << completed_task << " telah selesai" << std::endl;
+}
+
+void viewTask() {
+    for (int i = 0; i < mainData.size(); i++) {
+        std::cout << i << ") " << mainData[i] << std::endl;
+    }
+}
+
+void viewFinishTask() {
+    for (int i = 0; i < tugasSelesai.size(); i++)
+    {
+        std::cout << i << ") " << tugasSelesai[i] << std::endl;
+    }    
+}
+
+void removeTask(std::string tugasHapus) {
+        for (int i = 0; i < mainData.size(); i++)
+        {
+            std::cout << i << ") " << mainData[i] << std::endl;
+        }
+        std::cout << "Tugas mana yang mau dihapus";
+        int nomor_tugas;
+        std::cin >> nomor_tugas;
+        tugasHapus = mainData[nomor_tugas];
+        mainData.erase(mainData.begin() + nomor_tugas);
+        std::cout << "Tugas " << tugasHapus << " Telah dihapus" << std::endl;
+}
+
+void editTask(int editTugas) {
+/* 
+Fungsi "editTugas" adalah mengambil input int 
+untuk meminta nomor yang dipilih untuk di edit dan mengecek 
+apakah tugas yang diedit ada di mainData jika ada, maka menunggu 
+user memasukkan string baru untuk menggantikan tugas yang lama 
+dan memperlihatkan tugas yang sudah di edit (feature paling nyusahin)
+*/
+    for (int i = 0; i < mainData.size(); i++)
+    {
+        std::cout << i << ") " << mainData[i] << std::endl;
+    }
+    std::cout << "Tugas mana yang mau di edit: ";
+    std::cin >> editTugas;
+    if (editTugas >= 0 && editTugas < mainData.size())
+    {
+        std::cout << "Edit tugas: ";
+        std::cout << "\n";
+        std::cin >> mainData[editTugas];
+        for (int i = 0; i < mainData.size(); i++)
+        {
+            std::cout << i << ") " << mainData[i] << std::endl;
+        }
+    } else {
+        std::cout << "Nomor tugas invalid" << std::endl;
+    }
+}
+
+int main(int argc, const char** argv) {
+    std::string user_verification;
+    int pass_verification;
+    char pilihan;
+    char ulang;
+
+    // call variable  
+    std::vector<std::string> tugas(10); 
+    std::string tugas_baru, hapus_tugas, tugas_selesai; 
+    int editTugas;
+
+    system("cls");
+    std::cout << "\t\t\t***********************************************************************"<< std::endl;
+    std::cout << "\t\t\t                       Pengelolaan Daftar Tugas                        "<< std::endl;
+    std::cout << "\t\t\t***********************************************************************\n\n"<< std::endl;
+    // Login 
+    // std::cout << "Login ke program: ";
+    // std::cin >> user_verification;
+    // std::cout << "Masukkan password: ";
+    // std::cin >> pass_verification;
+    // if (user_verification == username && pass_verification == password) { 
+    do {
+        std::cout << "Lanjut\n";
             std::cout << "Menu Utama\n" << std::endl;
-            std::cout << "Apa yang mau anda lakukan: " << std::endl;
+            std::cout << "Apa yang mau anda lakukan" << std::endl;
             std::cout << "1) Mau membuat list tugas baru\n";
             std::cout << "2) Mau menandai tugas\n";
             std::cout << "3) Mau menampilkan tugas sekarang\n";
@@ -48,116 +133,36 @@ int main() {
             std::cin >> pilihan;
 
             switch (pilihan) {
-            case '1': {
-              std::cout << "Anda memilih: Tambah tugas" << std::endl;
-              // Logic menambah tugas
-              std::cout << "Tugas apa yang mau anda tambahkan? ";
-              std::cin.ignore(); // Membersihkan buffer input
-              std::getline(std::cin, daftar_tugas_baru);
-              daftar_tugas.push_back(daftar_tugas_baru); // Menambahkan tugas ke vektor
-              std::cout << "Tugas: " << daftar_tugas_baru << std::endl;
-              break;
-            }
-            case '2': {
-              std::cout << "Anda memilih: Tandai tugas selesai" << std::endl;
-              // Logic tandai tugas "selesai"
-              std::cout << "Tugas mana yang sudah selesai? ";
-              for (int i = 0; i < daftar_tugas.size(); i++) { // size() = melihat berapa banyak jumlah array di dalam daftar_tugas
-                std::cout << i << ")" << daftar_tugas[i] << std::endl;
-              }
-              // Ambil nomor dari daftar_tugas
-              int nomor_tugas_selesai;
-              std::cin >> nomor_tugas_selesai;
-              std::string completed_task = daftar_tugas[nomor_tugas_selesai]; 
-              daftar_tugas.erase(daftar_tugas.begin() + nomor_tugas_selesai); // Hapus tugas yang udah selesai dari daftar_tugas
-              // Memindahkan tugas yang sudah selesai ke vector daftar_tugas_selesai
-              daftar_tugas_selesai.push_back(completed_task);
-              std::cout << "Tugas " << completed_task << " telah ditandai selesai." << std::endl;
-              break;
-            }
-            case '3': {
-              std::cout << "Anda memilih: Tampilkan tugas" << std::endl;
-              // Logic melihat tugas
-              for (int i = 0; i < daftar_tugas.size(); i++) { 
-                std::cout << i << ") " << daftar_tugas[i] << std::endl;
-              }
-              break;
-            }
-            case '4': {
-              std::cout << "Anda memilih: Tampilkan tugas yang sudah selesai" << std::endl;
-              for (const auto& tugas : daftar_tugas_selesai) {
-                for (int i = 0; i < daftar_tugas_selesai.size(); i++)
-                {
-                  std::cout << i << ")" << tugas << std::endl;
+                case '1':
+                addTask(tugas_baru);
+                break;
+                case '2':
+                CompletedTask(tugas_selesai);
+                break;
+                case '3':
+                viewTask();
+                break;
+                case '4':
+                viewFinishTask();
+                break;
+                case '5':
+                removeTask(hapus_tugas);
+                break;
+                case '6':
+                editTask(editTugas);
+                break;
+                case '7':
+                return 0;
+                default: {
+                    std::cout << "Pilihan anda tidak ada";
                 }
-              }
-              }
-              break;
-            case '5': {
-              std::cout << "Anda memilih: Menghapus tugas" << std::endl;
-              // Logic menghapus tugas
-              std::cout << "Tugas mana yang mau anda hapus? ";
-              for (int i = 0; i < daftar_tugas.size(); i++) {
-                std::cout << i << ")" << daftar_tugas[i] << std::endl;
-              }
-              // Logika dihapus sama dengan logika menandai
-              int nomor_tugas_dihapus;
-              std::cin >> nomor_tugas_dihapus;
-              std::string deleted_task = daftar_tugas[nomor_tugas_dihapus];
-              daftar_tugas.erase(daftar_tugas.begin() + nomor_tugas_dihapus);
-              std::cout << "Tugas " << deleted_task << " telah dihapus." << std::endl;
-              break;
-            }
-            case '6': {
-              std::cout << "Anda memilih: edit tugas" << std::endl;
-              // Logic edit tugas
-              // Masih maintance
-              for (int i = 0; i < daftar_tugas.size(); i++) {
-                std::cout << i << ")" << daftar_tugas[i] << std::endl;
-              }
-              int nomor_tugas_diedit;
-              std::cout << "Tugas mana yang mau anda edit? "; 
-              std::cin >> nomor_tugas_diedit;
-              /* 
-              Fungsi "nomor_tugas_diedit" adalah mengambil tipe data int 
-              untuk meminta nomor yang dipilih untuk di edit dan mengecek 
-              apakah tugas yang diedit ada di daftar_tugas jika ada, maka menunggu 
-              user memasukkan string baru untuk menggantikan tugas yang 
-              lama dan memperlihatkan tugas yang sudah di edit (feature paling nyusahin)
-              */
-              if (nomor_tugas_diedit >= 0 && nomor_tugas_diedit < daftar_tugas.size())
-              {
-                std::cout << "Edit tugas: ";
-                std::cin >> daftar_tugas[nomor_tugas_diedit];
-                for (int i = 0; i < daftar_tugas.size(); i++)
-                {
-                  std::cout << i << ")" << daftar_tugas[i] << std::endl;
-                }
-              } else
-              {
-                std::cout << "Tugas tidak ditemukan" << std::endl;
-              }
-              break;
-            }
-            case '7': {
-              std::cout << "Anda memilih: Keluar" << std::endl;
-              std::cout << "Terima kasih sudah menggunakan program ini" << std::endl;
-              return 0;
-            }
-            default: {
-              std::cout << "Pilihan tidak valid. Silakan coba lagi." << std::endl;
-              break;
-            }
-            }
-            std::cout << std::endl;
-            std::cout << "Ingin memilih menu lain(y/n)? ";
-            std::cin >> ulang;
-        
-          } while (ulang != 'n');
-            std::cout << "\nterima kasih sudah menggunakan program ini";
-          } else {
-            return 0;
-          }  
-  return 0;      
+        }
+       std::cout << std::endl;
+       std::cout << "Ingin memilih menu lain(y/n)? ";
+       std::cin >> ulang;
+    } while(ulang != 'n');
+    // } else {
+    
+    // }
+    return 0;
 }
- 
