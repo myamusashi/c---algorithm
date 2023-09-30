@@ -18,24 +18,49 @@ Jika pengguna memilih untuk menambahkan tugas baru:
 Minta pengguna memasukkan deskripsi tugas.
 Tambahkan tugas baru ke daftar tugas.
 
+-Tandai Tugas Selesai:
+Jika pengguna memilih untuk menandai tugas selesai:
+Minta pengguna memasukkan nomor tugas yang ingin ditandai selesai.
+Tandai tugas yang sudah sebagai selesai.
+
+-Tandai Tugas Sedang dikerjakan:
+Jika pengguna memilih untuk menandai tugas akan dikerjakan:
+Minta pengguna untuk memasukkan nomor yang akan ditandai untuk dikerjakan.
+Tandai tugas yang sudah selesai.
+
 -Tampilkan Daftar Tugas:
 Jika pengguna memilih untuk menampilkan daftar tugas:
 Tampilkan daftar semua tugas yang belum selesai.
 
--Tandai Tugas Selesai:
-Jika pengguna memilih untuk menandai tugas selesai:
-Minta pengguna memasukkan nomor tugas yang ingin ditandai selesai.
-Tandai tugas yang sesuai sebagai selesai.
+-Tampilkan Daftar Tugas Yang Sudah Selesai:
+Jika pengguna memilih untuk menampilkan tugas yang sudah selesai:
+Tampilkan daftar tugas yang sudah selesai.
 
--Simpan Data:
-Simpan daftar tugas ke penyimpanan (misalnya, berkas teks) sehingga pengguna dapat 
-mengaksesnya kembali di sesi berikutnya.
+-Tambahkan menghapus tugas
+Jika pengguna memilih menghapus tugas:
+Minta pengguna memasukkan nomor tugas.
+
+-Tambahkan Mengatur tanggal 
+Membuat deadline di antara "Tugas yang dikerjakan" dan "Tugas yang belum dikerjakan(mainData)"
 
 -Keluar dari Aplikasi:
 Jika pengguna memilih untuk keluar dari aplikasi, keluar dari loop menu utama dan 
 selesaikan program.
 
--Tambahan (opsional):
-Anda dapat menambahkan fitur tambahan, seperti menghapus tugas, mengatur tanggal 
-jatuh tempo, mengelompokkan tugas berdasarkan kategori, atau mengimplementasikan 
-pengingat.
+ADVANCED/TINGKAT LANJUT update Pengelolaan daftar tugas 
+
+-Mengimplementasikan pengingat real-time
+Ketika pengguna sedang melihat program akan ada notifikasi di layar nya
+(ada error dibagian clang tidak bisa menggunakan header windows)
+
+-Membuat UI console
+Membuat UI console untuk terlihat lebih baik dan segar
+
+-OOP update
+Ketika gua udah paham akan mencoba rekontruksi code lagi dan mengubah beberapa menjadi lebih
+teroganisir dengan class, object dan sejenisnya
+
+-Simpan Data:
+Simpan daftar tugas ke database, ketika pengguna close console atau terminalnya
+pengguna tidak akan kehilangan data yang sudah dia buat sebelumnnya disini akan 
+memerlukan skill database dan gua akan menggunakan mysql atau SQlite
