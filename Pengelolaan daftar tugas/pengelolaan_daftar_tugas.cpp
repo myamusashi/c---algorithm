@@ -1,7 +1,11 @@
 #include <cctype>
+#include <exception>
 #include <iostream>
+#include <stdexcept>
 #include <vector>
 #include <string>
+#include <thread>
+#include <chrono>
 
 std::vector<std::string> mainData {
    "matematika",
@@ -19,7 +23,7 @@ std::vector<std::string> mainData {
 void addTask(std::string daftar_tugas_baru) {
     try {
         std::cout << "Tugas yang mau ditambahkan: ";
-        std::cin.ignore(); // Clean buffer input
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Clean buffer input
         std::getline(std::cin, daftar_tugas_baru);
         bool checkString = true;
         for (char c : daftar_tugas_baru) {
@@ -27,37 +31,54 @@ void addTask(std::string daftar_tugas_baru) {
                 checkString = false;
                 break;
             } else {
-                throw 555;
+                throw "Tidak boleh menggunakan nomor atau karakter unik";
             }
         }
         mainData.push_back(daftar_tugas_baru); // Push ke vector mainData
-        std::cout << "Tugas baru: " << daftar_tugas_baru << std::endl;
-    } catch (int denied) {
-        std::cout << "Tidak boleh menggunakan nomor atau karakter unik\n";
+        std::this_thread::sleep_for(std::chrono::seconds(5));
+        std::cout << "\n\nTugas baru: " << daftar_tugas_baru << std::endl;
+        for (int i = 0; i < mainData.size(); i++) {
+            std::cout << i << ") " << mainData[i] << std::endl;
+        }
+    } catch (const char* denied) {
         std::cout << "Input error: " << denied;
     }
 }
 
 std::vector<std::string> tugasSelesai {
     // I N V I S I B L E D A T A
-
 };
         
-void CompletedTask(std::string completed_task) {
-/*
+void CompletedTask(std::string& completed_task) {
+/* 
 Cara kode ini bekerja, data array yang dipilih untuk selesai akan di hapus di mainData 
 dan akan di pindahkan ke tugasSelesai 
 */
-        for (int i = 0; i < mainData.size(); i++) {
-            std::cout << i << ") " << mainData[i] << std::endl;
+    for (int i = 0; i < mainData.size(); i++) {
+        std::cout << i << ") " << mainData[i] << std::endl;
+    }
+    std::cout << "Tugas yang sudah selesai: ";
+    int nomorTugasSelesai;
+    // Menangani input pengguna yang tidak valid dengan instruksi if
+    if (!(std::cin >> nomorTugasSelesai)) {
+        std::cout << "Input tidak valid. Harap masukkan nomor tugas yang valid." << std::endl;
+        // Membersihkan buffer input
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    } else {
+        try {
+            if (nomorTugasSelesai >= 0 && nomorTugasSelesai < mainData.size()) {
+                completed_task = mainData[nomorTugasSelesai];
+                mainData.erase(mainData.begin() + nomorTugasSelesai); 
+                tugasSelesai.push_back(completed_task);
+                std::cout << "Tugas " << completed_task << " telah selesai" << std::endl;
+            } else {
+                throw std::invalid_argument("Nomor tugas tidak valid");
+            }
+        } catch (const std::exception& e) {
+            std::cout << "Input error: " << e.what();
         }
-        std::cout << "Tugas yang sudah selesai: ";
-        int nomorTugasSelesai;
-        std::cin >> nomorTugasSelesai;
-        completed_task = mainData[nomorTugasSelesai];
-        mainData.erase(mainData.begin() + nomorTugasSelesai); 
-        tugasSelesai.push_back(completed_task);
-        std::cout << "Tugas " << completed_task << " telah selesai" << std::endl;
+    }
 }
 
 void viewTask() {
@@ -130,7 +151,7 @@ int main(int argc, const char** argv) {
     // std::cin >> pass_verification;
     // if (user_verification == username && pass_verification == password) { 
     do {
-        std::cout << "Lanjut\n";
+        std::cout << "\n\nLanjut\n";
             std::cout << "Menu Utama\n" << std::endl;
             std::cout << "Apa yang mau anda lakukan" << std::endl;
             std::cout << "1) Mau membuat list tugas baru\n";
