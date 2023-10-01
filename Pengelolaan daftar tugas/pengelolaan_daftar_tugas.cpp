@@ -7,11 +7,14 @@
 #include <thread>
 #include <vector>
 
-std::vector<std::string> mainData{"matematika",           "Fisika dasar",
-                                  "logika pemrograman",   "bahasa indonesia",
-                                  "Basic english",        "PJOK",
-                                  "Pendidikan pancasila", "agama",
-                                  "project kelompok",     "english TOEFL"};
+std::vector<std::string> mainData
+{
+ "matematika",           "Fisika dasar",
+ "logika pemrograman",   "bahasa indonesia",
+ "Basic english",        "PJOK",
+ "Pendidikan pancasila", "agama",
+ "project kelompok",     "english TOEFL"
+};
 
 void addTask() {
   std::string daftar_tugas_baru;
