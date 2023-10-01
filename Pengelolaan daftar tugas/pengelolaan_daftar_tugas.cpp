@@ -15,10 +15,15 @@ std::vector<std::string> mainData{"matematika",           "Fisika dasar",
 
 void addTask() {
   std::string daftar_tugas_baru;
+/*
+Membuat exception handling untuk mengatasi ketika User salah input. Input yang diberikan tidak langsung
+masuk ke mainData dan user akan kena peringatan ketika salah memasukkan input
+*/
   try {
     std::cout << "Tugas yang mau ditambahkan: ";
-    std::cin.ignore(std::numeric_limits<std::streamsize>::max(),
-                    '\n'); // Clean buffer input
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); 
+    // Membersihkan buffer input untuk tidak menciptakan unexpected error ketika
+    // user salah memasukkan input
     std::getline(std::cin, daftar_tugas_baru);
     bool checkString = true;
     for (char c : daftar_tugas_baru) {
@@ -59,9 +64,7 @@ void CompletedTask() {
   // Menangani input pengguna yang tidak valid dengan instruksi if
   if (!(std::cin >> nomorTugasSelesai)) {
     std::cout << "Input tidak valid. Harap masukkan nomor tugas yang valid." << std::endl;
-    // Membersihkan buffer input untuk tidak menciptakan unexpected error ketika
-    // user salah memasukkan input
-    std::cin.clear();
+    std::cin.clear(); // Clean buffer input
     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
   } else {
     try {
@@ -101,8 +104,8 @@ void removeTask() {
   std::cout << "Tugas mana yang mau dihapus";
   int nomor_tugas;
   std::cin >> nomor_tugas;
-  tugasHapus = mainData[nomor_tugas];
-  mainData.erase(mainData.begin() + nomor_tugas);
+  tugasHapus = mainData[nomor_tugas]; // Mengambil input nomor_tugas
+  mainData.erase(mainData.begin() + nomor_tugas); // Menghapus nomor array yang dipilih
   std::cout << "Tugas " << tugasHapus << " Telah dihapus" << std::endl;
 }
 

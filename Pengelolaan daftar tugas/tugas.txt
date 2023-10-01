@@ -4,6 +4,9 @@ Tugas anda
 Inisialisasi aplikasi dan struktur data yang diperlukan, 
 seperti daftar tugas (task list).
 
+-User Sign-up dan Login
+Membuat pendaftaran user dan login user
+
 -Tampilkan Menu Utama:
 Tampilkan menu utama yang memungkinkan pengguna untuk memilih tindakan yang 
 ingin mereka lakukan, seperti menambahkan tugas baru, menampilkan daftar tugas, 
@@ -41,11 +44,12 @@ Jika pengguna memilih menghapus tugas:
 Minta pengguna memasukkan nomor tugas.
 
 -Tambahkan Mengatur tanggal 
-Membuat deadline di antara "Tugas yang dikerjakan" dan "Tugas yang belum dikerjakan(mainData)"
+Membuat deadline di antara "Tugas yang dikerjakan" dan 
+"Tugas yang belum dikerjakan(mainData)"
 
 -Keluar dari Aplikasi:
-Jika pengguna memilih untuk keluar dari aplikasi, keluar dari loop menu utama dan 
-selesaikan program.
+Jika pengguna memilih untuk keluar dari aplikasi, keluar 
+dari loop menu utama dan selesaikan program.
 
 ADVANCED/TINGKAT LANJUT update Pengelolaan daftar tugas 
 
@@ -57,8 +61,8 @@ Ketika pengguna sedang melihat program akan ada notifikasi di layar nya
 Membuat UI console untuk terlihat lebih baik dan segar
 
 -OOP update
-Ketika gua udah paham akan mencoba rekontruksi code lagi dan mengubah beberapa menjadi lebih
-teroganisir dengan class, object dan sejenisnya
+Ketika gua udah paham akan mencoba rekontruksi code lagi dan mengubah 
+beberapa menjadi lebih teroganisir dengan class, object dan sejenisnya
 
 -Simpan Data:
 Simpan daftar tugas ke database, ketika pengguna close console atau terminalnya
