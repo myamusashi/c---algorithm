@@ -49,7 +49,7 @@ masuk ke mainData dan user akan kena peringatan ketika salah memasukkan input
 }
 
 std::vector<std::string> tugasSelesai{
-    // I N V I S I B L E D A T A
+    // I N V I S I B L E D A T A 
 };
 
 void CompletedTask() {
