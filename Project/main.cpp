@@ -130,6 +130,7 @@ void removeTask() {
             if (nomor_tugas >= 0 && nomor_tugas <= mainData.size()) {
                 tugasHapus = mainData[nomor_tugas]; // Mengambil input nomor_tugas
                 mainData.erase(mainData.begin() + nomor_tugas); // Menghapus nomor array yang dipilih
+                std::cout << "Memproses tugas yang dihapus...\n";
                 std::this_thread::sleep_for(std::chrono::seconds(3));
                 std::cout << "Tugas " << tugasHapus << " Telah dihapus" << std::endl;
             }
@@ -141,10 +142,6 @@ void removeTask() {
             std::cout << "Input error: " << e.what();
         }
     }
-    std::cin >> nomor_tugas;
-    tugasHapus = mainData[nomor_tugas]; // Mengambil input nomor_tugas
-    mainData.erase(mainData.begin() + nomor_tugas); // Menghapus nomor array yang dipilih
-    std::cout << "Tugas " << tugasHapus << " Telah dihapus" << std::endl;
 }
 
 void editTask() {
