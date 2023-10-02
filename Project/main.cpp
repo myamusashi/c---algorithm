@@ -96,12 +96,18 @@ void CompletedTask() {
 }
 
 void viewTask() {
+    std::cout << "Memproses data tugas... " << std::endl;
+    std::this_thread::sleep_for(std::chrono::seconds(3));
+    system("cls");
     for (int i = 0; i < mainData.size(); i++) {
         std::cout << i << ") " << mainData[i] << std::endl;
     }
 }
 
 void viewFinishTask() {
+    std::cout << "Memproses data tugas yang sudah selesai... " << std::endl;
+    std::this_thread::sleep_for(std::chrono::seconds(3));
+    system("cls");
     for (int i = 0; i < tugasSelesai.size(); i++) {
         std::cout << i << ") " << tugasSelesai[i] << std::endl;
     }
@@ -113,14 +119,31 @@ void removeTask() {
     for (int i = 0; i < mainData.size(); i++) {
         std::cout << i << ") " << mainData[i] << std::endl;
     }
-    std::cout << "Tugas mana yang mau dihapus";
+    std::cout << "Tugas mana yang mau dihapus: ";
     int nomor_tugas;
+    if (!(std::cin >> nomor_tugas)) {
+        std::cout << "Input tidak valid, jangan gunakan karakter atau kata-kata unik";
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    } else {
+       try {
+            if (nomor_tugas >= 0 && nomor_tugas <= mainData.size()) {
+                tugasHapus = mainData[nomor_tugas]; // Mengambil input nomor_tugas
+                mainData.erase(mainData.begin() + nomor_tugas); // Menghapus nomor array yang dipilih
+                std::this_thread::sleep_for(std::chrono::seconds(3));
+                std::cout << "Tugas " << tugasHapus << " Telah dihapus" << std::endl;
+            }
+            else {
+                throw std::invalid_argument("Nomor tugas tidak valid");
+            }
+        }
+       catch (const std::exception& e) {
+            std::cout << "Input error: " << e.what();
+        }
+    }
     std::cin >> nomor_tugas;
     tugasHapus = mainData[nomor_tugas]; // Mengambil input nomor_tugas
     mainData.erase(mainData.begin() + nomor_tugas); // Menghapus nomor array yang dipilih
-    std::cout << "Memproses tugas yang di edit...\n";
-    std::this_thread::sleep_for(std::chrono::seconds(3));
-    system("cls");
     std::cout << "Tugas " << tugasHapus << " Telah dihapus" << std::endl;
 }
 
