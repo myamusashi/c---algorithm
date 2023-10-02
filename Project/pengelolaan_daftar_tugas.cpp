@@ -1,4 +1,3 @@
-#define _CRT_SECURE_NO_WARNINGS
 #include <cctype>
 #include <chrono>
 #include <exception>
@@ -7,7 +6,6 @@
 #include <string>
 #include <thread>
 #include <vector>
-// #include "login.h"
 
 std::vector<std::string> mainData
 {
@@ -40,9 +38,7 @@ masuk ke mainData dan user akan kena peringatan ketika salah memasukkan input
       }
     }
     mainData.push_back(daftar_tugas_baru); // Push ke vector mainData
-    std::cout << "Memproses tugas baru...\n";
-    std::this_thread::sleep_for(std::chrono::seconds(3));
-    system("cls");
+    std::this_thread::sleep_for(std::chrono::seconds(5));
     std::cout << "Tugas baru: " << daftar_tugas_baru << "\n" << std::endl;
     for (int i = 0; i < mainData.size(); i++) {
       std::cout << i << ") " << mainData[i] << std::endl;
@@ -79,8 +75,8 @@ void CompletedTask() {
         completed_task = mainData[nomorTugasSelesai];
         mainData.erase(mainData.begin() + nomorTugasSelesai);
         tugasSelesai.push_back(completed_task);
-        std::this_thread::sleep_for(std::chrono::seconds(3));
-        std::cout << "Tugas " << completed_task << " telah selesai" << std::endl;
+        std::cout << "Tugas " << completed_task << " telah selesai"
+                  << std::endl;
       } else {
         throw std::invalid_argument("Nomor tugas tidak valid");
       }
@@ -91,23 +87,15 @@ void CompletedTask() {
 }
 
 void viewTask() {
-    std::cout << "Menampilkan tugas sekarang...\n";
-    std::this_thread::sleep_for(std::chrono::seconds(1));
-    system("cls");
-    std::cout << "Tugas sekarang: \n";
-    for (int i = 0; i < mainData.size(); i++) {
-        std::cout << i << ") " << mainData[i] << std::endl;
-    }
+  for (int i = 0; i < mainData.size(); i++) {
+    std::cout << i << ") " << mainData[i] << std::endl;
+  }
 }
 
 void viewFinishTask() {
-    std::cout << "Menampilkan tugas yang sudah selesai...\n";
-    std::this_thread::sleep_for(std::chrono::seconds(1));
-    system("cls");
-    std::cout << "Tugas yang sudah selesai: \n";
-    for (int i = 0; i < tugasSelesai.size(); i++) {
-      std::cout << i << ") " << tugasSelesai[i] << std::endl;
-    }
+  for (int i = 0; i < tugasSelesai.size(); i++) {
+    std::cout << i << ") " << tugasSelesai[i] << std::endl;
+  }
 }
 
 void removeTask() {
@@ -116,28 +104,12 @@ void removeTask() {
   for (int i = 0; i < mainData.size(); i++) {
     std::cout << i << ") " << mainData[i] << std::endl;
   }
-  std::cout << "Tugas mana yang mau dihapus: ";
+  std::cout << "Tugas mana yang mau dihapus";
   int nomor_tugas;
-  if (!(std::cin >> nomor_tugas)) {
-      std::cout << "Input tidak valid, jangan gunakan karakter atau kata-kata unik";
-      std::cin.clear();
-      std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-  } else {
-    try {
-        if (nomor_tugas >= 0 && nomor_tugas <= mainData.size()) {
-            tugasHapus = mainData[nomor_tugas]; // Mengambil input nomor_tugas
-            mainData.erase(mainData.begin() + nomor_tugas); // Menghapus nomor array yang dipilih
-            std::this_thread::sleep_for(std::chrono::seconds(3));
-            std::cout << "Tugas " << tugasHapus << " Telah dihapus" << std::endl;
-        }
-        else {
-            throw std::invalid_argument("Nomor tugas tidak valid");
-        }
-    }
-    catch (const std::exception &e) {
-          std::cout << "Input error: " << e.what();
-      }
-  }
+  std::cin >> nomor_tugas;
+  tugasHapus = mainData[nomor_tugas]; // Mengambil input nomor_tugas
+  mainData.erase(mainData.begin() + nomor_tugas); // Menghapus nomor array yang dipilih
+  std::cout << "Tugas " << tugasHapus << " Telah dihapus" << std::endl;
 }
 
 void editTask() {
@@ -153,34 +125,21 @@ void editTask() {
     std::cout << i << ") " << mainData[i] << std::endl;
   }
   std::cout << "Tugas mana yang mau di edit: ";
-  if (!(std::cin >> editTugas)) {
-      std::cout << "Input tidak valid, jangan gunakan karakter atau kata-kata unik";
-      std::cin.clear();
-      std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+  std::cin >> editTugas;
+  if (editTugas >= 0 && editTugas < mainData.size()) {
+    std::cout << "Edit tugas: ";
+    std::cin >> mainData[editTugas];
+    for (int i = 0; i < mainData.size(); i++) {
+      std::cout << i << ") " << mainData[i] << std::endl;
+    }
   } else {
-      try {
-        if (editTugas >= 0 && editTugas < mainData.size()) {
-            std::cout << "Edit tugas: ";
-            std::cin >> mainData[editTugas];
-            std::cout << "Mengedit tugas anda...\n";
-            std::this_thread::sleep_for(std::chrono::seconds(3));
-            for (int i = 0; i < mainData.size(); i++) {
-                std::cout << i << ") " << mainData[i] << std::endl;
-            }
-        }
-        else {
-            std::cout << "Nomor tugas invalid" << std::endl;
-        }
-      }
-      catch (const std::exception &e) {
-          std::cout << "Input error: " << e.what();
-      }
+    std::cout << "Nomor tugas invalid" << std::endl;
   }
 }
 
 int main(int argc, const char **argv) {
   std::string user_verification;
-  // int pass_verification;
+  int pass_verification;
   char pilihan;
   char ulang;
   
