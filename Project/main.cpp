@@ -6,10 +6,11 @@
 #include <string>
 #include <thread>
 #include <vector>
+#include "login.h" 
 
 std::vector<std::string> mainData
 {
- "matematika",           " Fisika dasar",
+ "matematika",           "Fisika dasar",
  "logika pemrograman",   "bahasa indonesia",
  "Basic english",        "PJOK",
  "Pendidikan pancasila", "agama",
@@ -97,7 +98,7 @@ void CompletedTask() {
 
 void viewTask() {
     std::cout << "Memproses data tugas... " << std::endl;
-    std::this_thread::sleep_for(std::chrono::seconds(3));
+    std::this_thread::sleep_for(std::chrono::seconds(1));
     system("cls");
     for (int i = 0; i < mainData.size(); i++) {
         std::cout << i << ") " << mainData[i] << std::endl;
@@ -106,7 +107,7 @@ void viewTask() {
 
 void viewFinishTask() {
     std::cout << "Memproses data tugas yang sudah selesai... " << std::endl;
-    std::this_thread::sleep_for(std::chrono::seconds(3));
+    std::this_thread::sleep_for(std::chrono::seconds(1));
     system("cls");
     for (int i = 0; i < tugasSelesai.size(); i++) {
         std::cout << i << ") " << tugasSelesai[i] << std::endl;
@@ -152,28 +153,40 @@ void editTask() {
     user memasukkan string baru untuk menggantikan tugas yang lama
     dan memperlihatkan tugas yang sudah di edit
     */
-    int editTugas;
     for (int i = 0; i < mainData.size(); i++) {
         std::cout << i << ") " << mainData[i] << std::endl;
     }
     std::cout << "Tugas mana yang mau di edit: ";
-    std::cin >> editTugas;
-    if (editTugas >= 0 && editTugas < mainData.size()) {
-        std::cout << "Edit tugas: ";
-        std::cin >> mainData[editTugas];
-        std::cout << "Memproses tugas yang di edit...\n";
-        std::this_thread::sleep_for(std::chrono::seconds(3));
-        system("cls");
-        for (int i = 0; i < mainData.size(); i++) {
-            std::cout << i << ") " << mainData[i] << std::endl;
+    int editTugas;
+    if (!(std::cin >> editTugas)) {
+        std::cout << "Input tidak valid, jangan gunakan karakter atau kata-kata unik!";
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    } else {
+        try {
+            if (editTugas >= 0 && editTugas < mainData.size()) {
+                std::cout << "Edit tugas: ";
+                std::cin >> mainData[editTugas];
+                std::cout << "Memproses tugas yang di edit...\n";
+                std::this_thread::sleep_for(std::chrono::seconds(3));
+                system("cls");
+                for (int i = 0; i < mainData.size(); i++) {
+                    std::cout << i << ") " << mainData[i] << std::endl;
+                }
+            }
+            else {
+                throw std::invalid_argument("Nomor tugas invalid");
+            }
+        }
+        catch (const std::exception& e) {
+            std::cout << "Input error: " << e.what();
         }
     }
-    else {
-        std::cout << "Nomor tugas invalid" << std::endl;
-    }
+    
 }
 
 int main(int argc, const char** argv) {
+
     std::string user_verification;
     int pass_verification;
     char pilihan;
@@ -183,6 +196,8 @@ int main(int argc, const char** argv) {
     std::cout << "\t\t\t***********************************************************************" << std::endl;
     std::cout << "\t\t\t                       Pengelolaan Daftar Tugas                        " << std::endl;
     std::cout << "\t\t\t***********************************************************************\n\n" << std::endl;
+    // Sign-up 
+    
     // Login
     // std::cout << "Login ke program: ";
     // std::cin >> user_verification;
