@@ -12,7 +12,7 @@ void UserPass::ProcessRegis() {
     std::string user_input, pass_input, user_verification, pass_verification;
 
     std::cout << "\t\t\tHalaman registrasi user baru\n\n";
-    std::cout << "Masukkan username anda: ";
+    std::cout << "Masukkans username anda: ";
     std::cin >> user_input;
     std::regex pattern("^(?=.*[A-Za-z])(?=.*\\d).+$");
     if (std::regex_match(user_input, pattern)) {
