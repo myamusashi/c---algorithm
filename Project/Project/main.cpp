@@ -186,6 +186,15 @@ void editTask() {
 
 int main(int argc, const char** argv) {
 
+    std::vector<std::string> id;
+    std::vector<std::string> access;
+
+    // Membuat objek UserPass
+    UserPass userpass(&id, &access);
+
+    // Memanggil metode ProcessRegis untuk proses pendaftaran
+    userpass.ProcessRegister();
+
     char pilihan;
     char ulang;
 
@@ -204,8 +213,10 @@ int main(int argc, const char** argv) {
         std::cout << "4) Menampilkan tugas yang sudah selesai\n";
         std::cout << "5) Mau menghapus tugas\n";
         std::cout << "6) Mau mengedit tugas\n";
-        std::cout << "7) Keluar dari program\n";
-        std::cout << "Pilih menu yang mau anda lakukan(1-7): ";
+        std::cout << "7) Mau logout dari program?\n";
+        std::cout << "8) Mau registrasi akun baru?\n";
+        std::cout << "9) Keluar dari program\n";
+        std::cout << "Pilih menu yang mau anda lakukan(1-9): ";
         std::cin >> pilihan;
 
         switch (pilihan) {
@@ -234,16 +245,23 @@ int main(int argc, const char** argv) {
             editTask();
             break;
         case '7':
-            return 0;
-        default: {
+            system("cls");
+            userpass.LoginProgram();
+            break;
+        case '8':
+            system("cls");
+            userpass.ProcessRegister();
+            break;
+        case '9':
+            exit(1);
+        default:
             std::cout << "Pilihan anda tidak ada";
         }
-        }
         std::cout << std::endl;
-        std::cout << "Ingin memilih menu lain(y/n)? ";
+        std::cout << "Ingin ulang lagi atau melanjutkan (u/l)? ";
         std::cin >> ulang;
-        system("cls");
-    } while (ulang != 'n');
-    
+
+    } while (ulang != 'u');
+    system("cls");
     return 0;
 }
