@@ -182,13 +182,10 @@ void editTask() {
             std::cout << "Input error: " << e.what();
         }
     }
-    
 }
 
 int main(int argc, const char** argv) {
 
-    std::string user_verification;
-    int pass_verification;
     char pilihan;
     char ulang;
 
@@ -196,14 +193,7 @@ int main(int argc, const char** argv) {
     std::cout << "\t\t\t***********************************************************************" << std::endl;
     std::cout << "\t\t\t                       Pengelolaan Daftar Tugas                        " << std::endl;
     std::cout << "\t\t\t***********************************************************************\n\n" << std::endl;
-    // Sign-up 
-    
-    // Login
-    // std::cout << "Login ke program: ";
-    // std::cin >> user_verification;
-    // std::cout << "Masukkan password: ";
-    // std::cin >> pass_verification;
-    // if (user_verification == username && pass_verification == password) {
+
     do {
         std::cout << "\n\nLanjut\n";
         std::cout << "Menu Utama\n" << std::endl;
@@ -254,8 +244,6 @@ int main(int argc, const char** argv) {
         std::cin >> ulang;
         system("cls");
     } while (ulang != 'n');
-    // } else {
-
-    // }
+    
     return 0;
 }
