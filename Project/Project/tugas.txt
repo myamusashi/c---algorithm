@@ -1,66 +1,66 @@
 Tugas anda
 
--Inisialisasi Aplikasi:
+-Inisialisasi Aplikasi: sudah
 Inisialisasi aplikasi dan struktur data yang diperlukan, 
 seperti daftar tugas (task list).
 
--User Sign-up dan Login
+-User Sign-up dan Login: sudah(Masih ada beberapa yang error logic)
 Membuat pendaftaran user dan login user
 
--Tampilkan Menu Utama:
+-Tampilkan Menu Utama: sudah
 Tampilkan menu utama yang memungkinkan pengguna untuk memilih tindakan yang 
 ingin mereka lakukan, seperti menambahkan tugas baru, menampilkan daftar tugas, 
 atau menandai tugas selesai.
 
--Loop Menu Utama:
+-Loop Menu Utama: sudah
 Dalam loop menu utama, terus-menerus tampilkan menu dan tunggu pengguna 
 memilih tindakan.
 
--Tambahkan Tugas Baru:
+-Tambahkan Tugas Baru: sudah
 Jika pengguna memilih untuk menambahkan tugas baru:
 Minta pengguna memasukkan deskripsi tugas.
 Tambahkan tugas baru ke daftar tugas.
 
--Tandai Tugas Selesai:
+-Tandai Tugas Selesai: sudah
 Jika pengguna memilih untuk menandai tugas selesai:
 Minta pengguna memasukkan nomor tugas yang ingin ditandai selesai.
 Tandai tugas yang sudah sebagai selesai.
 
--Tandai Tugas Sedang dikerjakan:
+-Tandai Tugas Sedang dikerjakan: 
 Jika pengguna memilih untuk menandai tugas akan dikerjakan:
 Minta pengguna untuk memasukkan nomor yang akan ditandai untuk dikerjakan.
 Tandai tugas yang sudah selesai.
 
--Tampilkan Daftar Tugas:
+-Tampilkan Daftar Tugas: sudah
 Jika pengguna memilih untuk menampilkan daftar tugas:
 Tampilkan daftar semua tugas yang belum selesai.
 
--Tampilkan Daftar Tugas Yang Sudah Selesai:
+-Tampilkan Daftar Tugas Yang Sudah Selesai: sudah
 Jika pengguna memilih untuk menampilkan tugas yang sudah selesai:
 Tampilkan daftar tugas yang sudah selesai.
 
--Tambahkan menghapus tugas
-Jika pengguna memilih menghapus tugas:
+-Tambahkan menghapus tugas: sudah
+Jika pengguna memilih menghapus tugas,
 Minta pengguna memasukkan nomor tugas.
 
--Tambahkan Mengatur tanggal 
+-Tambahkan Mengatur tanggal: 
 Membuat deadline di antara "Tugas yang dikerjakan" dan 
 "Tugas yang belum dikerjakan(mainData)"
 
--Keluar dari Aplikasi:
+-Keluar dari Aplikasi: sudah
 Jika pengguna memilih untuk keluar dari aplikasi, keluar 
 dari loop menu utama dan selesaikan program.
 
 ADVANCED/TINGKAT LANJUT update Pengelolaan daftar tugas 
 
--Mengimplementasikan pengingat real-time
+-Mengimplementasikan pengingat real-time: 
 Ketika pengguna sedang melihat program akan ada notifikasi di layar nya
 (ada error dibagian clang tidak bisa menggunakan header windows)
 
 -Membuat UI console
 Membuat UI console untuk terlihat lebih baik dan segar
 
--OOP update
+-OOP update: sudah (setengah)
 Ketika gua udah paham akan mencoba rekontruksi code lagi dan mengubah 
 beberapa menjadi lebih teroganisir dengan class, object dan sejenisnya
 

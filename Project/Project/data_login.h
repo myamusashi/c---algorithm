@@ -1,8 +1,7 @@
+#pragma once
+
 #include <string>
 #include <vector>
-
-#ifndef LOGIN_H
-#define LOGIN_H
 
 class UserPass {
 public:
@@ -16,4 +15,3 @@ private:
     std::vector<std::string>* username;
     std::vector<std::string>* password;
 };
-#endif

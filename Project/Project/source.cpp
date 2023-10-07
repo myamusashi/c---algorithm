@@ -4,7 +4,7 @@
 #include <vector>
 #include <chrono>
 #include <thread>
-#include "login.h"
+#include "data_login.h"
 
 UserPass::UserPass(std::vector<std::string>* id, std::vector<std::string>* access)
     : username(id), password(access) {
@@ -71,7 +71,6 @@ void UserPass::ProcessRegister() {
 
 void UserPass::LoginProgram() {
     std::string loginUser, loginPass, back;
-    char ;
 
     do {
         system("cls");
