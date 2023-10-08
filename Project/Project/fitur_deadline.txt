@@ -1,0 +1,7 @@
+Tugas aing
+1. Tentukan deadline (tanggal dan waktu) dalam format "YYYY-MM-DD HH:MM:SS".
+2. Dapatkan tanggal dan waktu saat ini.
+3. Hitung selisih waktu antara saat ini dan deadline.
+4. SelisihWaktu = deadline - saatIni
+5. Hitung hari, jam, dan menit dari SelisihWaktu.
+6. Tampilkan hasilnya dalam format "X hari Y jam Z menit" kepada pengguna.

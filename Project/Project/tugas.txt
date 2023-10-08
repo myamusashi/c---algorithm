@@ -4,7 +4,7 @@ Tugas anda
 Inisialisasi aplikasi dan struktur data yang diperlukan, 
 seperti daftar tugas (task list).
 
--User Sign-up dan Login: sudah(Masih ada beberapa yang error logic)
+-User Sign-up dan Login: sudah
 Membuat pendaftaran user dan login user
 
 -Tampilkan Menu Utama: sudah
@@ -26,7 +26,7 @@ Jika pengguna memilih untuk menandai tugas selesai:
 Minta pengguna memasukkan nomor tugas yang ingin ditandai selesai.
 Tandai tugas yang sudah sebagai selesai.
 
--Tandai Tugas Sedang dikerjakan: 
+-Tandai Tugas Sedang dikerjakan: sedang dikerjakan
 Jika pengguna memilih untuk menandai tugas akan dikerjakan:
 Minta pengguna untuk memasukkan nomor yang akan ditandai untuk dikerjakan.
 Tandai tugas yang sudah selesai.
@@ -43,7 +43,7 @@ Tampilkan daftar tugas yang sudah selesai.
 Jika pengguna memilih menghapus tugas,
 Minta pengguna memasukkan nomor tugas.
 
--Tambahkan Mengatur tanggal: 
+-Tambahkan Mengatur tanggal dan waktu yang ditentukan: ToDo
 Membuat deadline di antara "Tugas yang dikerjakan" dan 
 "Tugas yang belum dikerjakan(mainData)"
 
@@ -57,10 +57,10 @@ ADVANCED/TINGKAT LANJUT update Pengelolaan daftar tugas
 Ketika pengguna sedang melihat program akan ada notifikasi di layar nya
 (ada error dibagian clang tidak bisa menggunakan header windows)
 
--Membuat UI console
+-Membuat UI console: 
 Membuat UI console untuk terlihat lebih baik dan segar
 
--OOP update: sudah (setengah)
+-OOP update: sudah
 Ketika gua udah paham akan mencoba rekontruksi code lagi dan mengubah 
 beberapa menjadi lebih teroganisir dengan class, object dan sejenisnya
 

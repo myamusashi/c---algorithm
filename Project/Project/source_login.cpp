@@ -19,11 +19,12 @@ void UserPass::ProcessRegister() {
         std::cout << "\t\t\tHalaman registrasi user baru\n\n";
         std::cout << "Masukkan username anda: ";
         std::cin >> user_input;
-        std::regex pattern("^(?=.*[A-Za-z])(?=.*\\d).+$");
-        if (std::regex_match(user_input, pattern)) {
+        std::regex userRegex("^(?=.*[A-Z]).{8,}$"); // Minimal 8 karakter dengan 1 huruf besar
+        std::regex passRegex("^(?=.*[A-Z])(?=.*\\d).{8,}$"); // Minimal 8 karakter dengan 1 huruf besar dan 1 angka
+        if (std::regex_match(user_input, userRegex)) {
             std::cout << "Masukkan password anda: ";
             std::cin >> pass_input;
-            if (std::regex_match(pass_input, pattern)) {
+            if (std::regex_match(pass_input, passRegex)) {
                 std::cout << "Username dan password valid\n";
                 std::this_thread::sleep_for(std::chrono::seconds(2));
                 username->push_back(user_input);
@@ -57,11 +58,13 @@ void UserPass::ProcessRegister() {
                 }
             }
             else {
-                std::cout << "Salah";
+                std::cout << "Password invalid, inimal 8 karakter dan 1 huruf besar dan 1 angka";
+                std::this_thread::sleep_for(std::chrono::seconds(2));
             }
         }
         else {
-            std::cout << "Salah";
+            std::cout << "Username invalid, minimal 8 karakter dan 1 huruf besar";
+            std::this_thread::sleep_for(std::chrono::seconds(2));
         }
 
         std::cout << "\nIngin Registrasi kembali? (y/n)? ";
