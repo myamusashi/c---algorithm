@@ -5,11 +5,32 @@
 #include <chrono>
 #include "data_login.h" 
 #include "source_data.h"
+#include "Ui.h"
+
 
 int main(int argc, const char** argv) {
+    // Inisialisasi PDCurses
+    initscr();
+    cbreak();
+    noecho();
 
-    std::vector<std::string> id, data, doWork;
-    std::vector<std::string> access, dataFinish;
+    // Membuat window baru
+    Window win(10, 20, 0, 0);
+
+    // Menulis teks ke window
+    win.print("Halo Dunia!");
+
+    // Menampilkan perubahan pada window
+    win.refresh();
+
+    // Menunggu input pengguna
+    getch();
+
+    // Mengakhiri sesi PDCurses
+    endwin();
+    std::this_thread::sleep_for(std::chrono::seconds(10));
+    std::vector<std::string> data, doWork, dataFinish;
+    std::vector<std::string> id, access;
 
     // Membuat objek UserPass dan SourceData
     SourceData s(&data, &dataFinish, &doWork);
@@ -31,18 +52,22 @@ int main(int argc, const char** argv) {
         system("cls");
         std::cout << "Menu Utama\n\n";
         std::cout << "Apa yang mau anda lakukan\n";
-        std::cout << "1) Mau membuat list tugas baru\n";
-        std::cout << "2) Mau menandai tugas\n";
-        std::cout << "3) Mau menampilkan tugas sekarang\n";
-        std::cout << "4) Menampilkan tugas yang sudah selesai\n";
-        std::cout << "5) Mau menghapus tugas\n";
-        std::cout << "6) Mau menghapus tugas selesai\n";
-        std::cout << "7) Mau mengedit tugas\n";
-        std::cout << "8) Mau mengedit tugas selesai\n";
-        std::cout << "9) Mau logout dari program?\n";
-        std::cout << "10) Mau registrasi akun baru?\n";
-        std::cout << "11) Keluar dari program\n";
-        std::cout << "Pilih menu yang mau anda lakukan(1-11): ";
+        std::cout << "1) Mau membuat list tugas baru?\n";
+        std::cout << "2) Mau menandai tugas yang mau dikerjakan?\n";
+        std::cout << "3) Mau menandai tugas selesai?\n";
+        std::cout << "4) Menampilkan tugas sekarang\n";
+        std::cout << "5) Menampilkan tugas yang sedang dikerjakan\n";
+        std::cout << "6) Menampilkan tugas yang sudah selesai\n";
+        std::cout << "7) Mau menghapus tugas sekarang?\n";
+        std::cout << "8) Mau menghapus tugas yang sedang dikerjakan?\n";
+        std::cout << "9) Mau menghapus tugas yang sudah selesai?\n";
+        std::cout << "10) Mau mengedit tugas\n";
+        std::cout << "11) Mau mengedit tugas yang sedang dikerjakan?\n";
+        std::cout << "12) Mau mengedit tugas yang sudah selesai?\n";
+        std::cout << "13) Mau logout dari program?\n";
+        std::cout << "14) Mau registrasi akun baru?\n";
+        std::cout << "15) Keluar dari program\n";
+        std::cout << "Pilih menu yang mau anda lakukan(1-15): ";
         std::cin >> pilihan;
 
         switch (pilihan) {
@@ -52,41 +77,57 @@ int main(int argc, const char** argv) {
             break;
         case 2:
             system("cls");
-            s.CompletedTask(&dataFinish);
+            s.TasktoDo(&doWork);
             break;
         case 3:
             system("cls");
-            s.DisplayTask(&data);
+            s.CompletedTask(&dataFinish);
             break;
         case 4:
             system("cls");
-            s.DisplayCompletedTask(&dataFinish);
+            s.DisplayTask(&data);
             break;
         case 5:
             system("cls");
-            s.RemoveTask(&data);
+            s.DisplayTaskToDo(&doWork);
             break;
         case 6:
             system("cls");
-            s.RemoveFinishTask(&dataFinish);
+            s.DisplayCompletedTask(&dataFinish);
             break;
         case 7:
             system("cls");
-            s.EditTask(&data);
+            s.RemoveTask(&data);
             break;
         case 8:
             system("cls");
-            s.EditFinishTask(&dataFinish);
+            s.RemoveTaskToDo(&doWork);
             break;
         case 9:
             system("cls");
-            c.LoginProgram();
+            s.RemoveFinishTask(&dataFinish);
             break;
         case 10:
             system("cls");
-            c.ProcessRegister();
+            s.EditTask(&data);
             break;
         case 11:
+            system("cls");
+            s.EditTaskTodo(&doWork);
+            break;
+        case 12:
+            system("cls");
+            s.EditFinishTask(&dataFinish);
+            break;
+        case 13:
+            system("cls");
+            c.LoginProgram();
+            break;
+        case 14:
+            system("cls");
+            c.ProcessRegister();
+            break;
+        case 15:
             std::cout << "Anda memilih keluar...";
             std::this_thread::sleep_for(std::chrono::seconds(2));
             return 0;

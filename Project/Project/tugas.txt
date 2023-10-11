@@ -43,15 +43,15 @@ Tampilkan daftar tugas yang sudah selesai.
 Jika pengguna memilih menghapus tugas,
 Minta pengguna memasukkan nomor tugas.
 
--Tambahkan Mengatur tanggal dan waktu yang ditentukan: ToDo
-Membuat deadline di antara "Tugas yang dikerjakan" dan 
-"Tugas yang belum dikerjakan(mainData)"
-
 -Keluar dari Aplikasi: sudah
 Jika pengguna memilih untuk keluar dari aplikasi, keluar 
 dari loop menu utama dan selesaikan program.
 
 ADVANCED/TINGKAT LANJUT update Pengelolaan daftar tugas 
+
+-Tambahkan Mengatur tanggal dan waktu yang ditentukan: 
+Membuat deadline di antara "Tugas yang dikerjakan" dan 
+"Tugas yang belum dikerjakan(mainData)"
 
 -Mengimplementasikan pengingat real-time: 
 Ketika pengguna sedang melihat program akan ada notifikasi di layar nya

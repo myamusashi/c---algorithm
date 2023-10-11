@@ -5,8 +5,8 @@
 #include <chrono>
 #include "source_data.h"
 
-SourceData::SourceData(std::vector<std::string>* data, std::vector<std::string>* doWork, std::vector<std::string>* dataFinish)
-    : mainData(data), toDo(doWork), taskSucced(dataFinish) {
+SourceData::SourceData(std::vector<std::string>* data, std::vector<std::string>* dataFinish, std::vector<std::string>* doWork)
+    : mainData(data), taskSucced(dataFinish), toDo(doWork) {
 }
 
 void SourceData::AddTask(std::vector<std::string>* mainData) {
@@ -33,7 +33,7 @@ void SourceData::AddTask(std::vector<std::string>* mainData) {
         system("cls");
         std::cout << "Tugas baru: " << std::endl;
         for (int i = 0; i < mainData->size(); i++) { // Akses mainData
-            std::cout << i << ") " << (*mainData)[i] << std::endl;
+            std::cout << i << ") " << (*mainData)[i] << "\n";
         }
     }
     else {
@@ -44,30 +44,32 @@ void SourceData::AddTask(std::vector<std::string>* mainData) {
 void SourceData::TasktoDo(std::vector<std::string>* toDo) {
     /*
     Cara kode ini bekerja, data array yang dipilih untuk selesai akan di hapus di
-    function mainData dan akan dipindahkan ke tugasSelesai
+    function mainData dan akan dipindahkan ke toDo yang ada di file source_data.h
     */
-    std::string completed_task;
+    std::string taskWork;
 
     for (int i = 0; i < mainData->size(); i++) {
-        std::cout << i << ") " << (*mainData)[i] << std::endl;
+        std::cout << i << ") " << (*mainData)[i] << "\n";
     }
     std::cout << "Tugas yang mau dikerjakan: ";
-    int nomorTugasSelesai;
+    int nomorTugasDikerjakan;
+
     // Menangani input pengguna yang tidak valid dengan instruksi if
-    if (!(std::cin >> nomorTugasSelesai)) {
-        std::cout << "Input tidak valid. Harap masukkan nomor tugas yang valid." << std::endl;
+    if (!(std::cin >> nomorTugasDikerjakan)) {
+        std::cout << "Input tidak valid. Harap masukkan nomor tugas yang valid." << "\n";
         std::cin.clear(); // Clean buffer input
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     }
     else {
-        if (nomorTugasSelesai >= 0 && nomorTugasSelesai < mainData->size()) {
-            completed_task = (*mainData)[nomorTugasSelesai];
-            mainData->erase(mainData->begin() + nomorTugasSelesai);
-            toDo->push_back(completed_task);
-            std::cout << "Memproses tugas selesai...\n";
+        if (nomorTugasDikerjakan >= 0 && nomorTugasDikerjakan < mainData->size()) {
+            taskWork = (*mainData)[nomorTugasDikerjakan];
+
+            mainData->erase(mainData->begin() + nomorTugasDikerjakan);
+            toDo->push_back(taskWork);
+            std::cout << "Memproses tugas yang akan dikerjakan...\n";
             std::this_thread::sleep_for(std::chrono::seconds(3));
             system("cls");
-            std::cout << "Tugas " << completed_task << " telah selesai" << std::endl;
+            std::cout << "Tugas " << taskWork << " akan dikerjakan" << "\n";
         }
         else {
             std::cout << ("Nomor tugas tidak valid");
@@ -78,30 +80,31 @@ void SourceData::TasktoDo(std::vector<std::string>* toDo) {
 void SourceData::CompletedTask(std::vector<std::string>* taskSucced) {
     /*
     Cara kode ini bekerja, data array yang dipilih untuk selesai akan di hapus di
-    function mainData dan akan dipindahkan ke tugasSelesai
+    function mainData dan akan dipindahkan ke taskSucced
     */
     std::string completed_task;
 
-    for (int i = 0; i < mainData->size(); i++) {
-        std::cout << i << ") " << (*mainData)[i] << std::endl;
+    for (int i = 0; i < toDo->size(); i++) {
+        std::cout << i << ") " << (*toDo)[i] << "\n";
     }
     std::cout << "Tugas yang sudah selesai: ";
     int nomorTugasSelesai;
     // Menangani input pengguna yang tidak valid dengan instruksi if
     if (!(std::cin >> nomorTugasSelesai)) {
-        std::cout << "Input tidak valid. Harap masukkan nomor tugas yang valid." << std::endl;
+        std::cout << "Input tidak valid. Harap masukkan nomor tugas yang valid." << "\n";
         std::cin.clear(); // Clean buffer input
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     }
     else {
-        if (nomorTugasSelesai >= 0 && nomorTugasSelesai < mainData->size()) {
-            completed_task = (*mainData)[nomorTugasSelesai];
-            mainData->erase(mainData->begin() + nomorTugasSelesai);
+        if (nomorTugasSelesai >= 0 && nomorTugasSelesai < toDo->size()) {
+            completed_task = (*toDo)[nomorTugasSelesai];
+
+            toDo->erase(toDo->begin() + nomorTugasSelesai);
             taskSucced->push_back(completed_task);
             std::cout << "Memproses tugas selesai...\n";
             std::this_thread::sleep_for(std::chrono::seconds(3));
             system("cls");
-            std::cout << "Tugas " << completed_task << " telah selesai" << std::endl;
+            std::cout << "Tugas " << completed_task << " telah selesai" << "\n";
         }
         else {
             std::cout << ("Nomor tugas tidak valid");
@@ -110,22 +113,32 @@ void SourceData::CompletedTask(std::vector<std::string>* taskSucced) {
 }
 
 void SourceData::DisplayTask(std::vector<std::string>* mainData) {
-    std::cout << "Memproses data tugas... " << std::endl;
+    std::cout << "Memproses data tugas... " << "\n";
     std::this_thread::sleep_for(std::chrono::seconds(1));
     system("cls");
     std::cout << "Daftar tugas:\n";
     for (int i = 0; i < mainData->size(); i++) {
-        std::cout << i << ") " << (*mainData)[i] << std::endl;
+        std::cout << i << ") " << (*mainData)[i] << "\n";
+    }
+}
+
+void SourceData::DisplayTaskToDo(std::vector<std::string>* toDo) {
+    std::cout << "Memproses data tugas yang sedang dikerjakan... " << "\n";
+    std::this_thread::sleep_for(std::chrono::seconds(1));
+    system("cls");
+    std::cout << "Daftar tugas:\n";
+    for (int i = 0; i < toDo->size(); i++) {
+        std::cout << i << ") " << (*toDo)[i] << "\n";
     }
 }
 
 void SourceData::DisplayCompletedTask(std::vector<std::string>* taskSucced) {
-    std::cout << "Memproses data tugas yang sudah selesai... " << std::endl;
+    std::cout << "Memproses data tugas yang sudah selesai... " << "\n";
     std::this_thread::sleep_for(std::chrono::seconds(1));
     system("cls");
     std::cout << "Tugas yang sudah selesai:\n";
     for (int i = 0; i < taskSucced->size(); i++) {
-        std::cout << i << ") " << (*taskSucced)[i] << std::endl;
+        std::cout << i << ") " << (*taskSucced)[i] << "\n";
     }
 }
 
@@ -133,7 +146,7 @@ void SourceData::RemoveTask(std::vector<std::string>* mainData) {
     std::string tugasHapus;
 
     for (int i = 0; i < mainData->size(); i++) {
-        std::cout << i << ") " << (*mainData)[i] << std::endl;
+        std::cout << i << ") " << (*mainData)[i] << "\n";
     }
     std::cout << "Tugas mana yang mau dihapus: ";
     int nomor_tugas;
@@ -148,7 +161,34 @@ void SourceData::RemoveTask(std::vector<std::string>* mainData) {
             mainData->erase(mainData->begin() + nomor_tugas); // Menghapus nomor array yang dipilih
             std::cout << "Memproses tugas yang dihapus...\n";
             std::this_thread::sleep_for(std::chrono::seconds(3));
-            std::cout << "Tugas " << tugasHapus << " Telah dihapus" << std::endl;
+            std::cout << "Tugas " << tugasHapus << " Telah dihapus" << "\n";
+        }
+        else {
+            std::cout << ("Nomor tugas tidak valid");
+        }
+    }
+}
+
+void SourceData::RemoveTaskToDo(std::vector<std::string>* toDo) {
+    std::string tugasHapus;
+
+    for (int i = 0; i < toDo->size(); i++) {
+        std::cout << i << ") " << (*toDo)[i] << "\n";
+    }
+    std::cout << "Tugas mana yang mau dihapus: ";
+    int nomor_tugas;
+    if (!(std::cin >> nomor_tugas)) {
+        std::cout << "Input tidak valid, jangan gunakan karakter atau kata-kata unik";
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    }
+    else {
+        if (nomor_tugas >= 0 && nomor_tugas <=toDo->size()) {
+            toDo[nomor_tugas]; // Mengambil input nomor_tugas
+            toDo->erase(toDo->begin() + nomor_tugas); // Menghapus nomor array yang dipilih
+            std::cout << "Memproses tugas yang dihapus...\n";
+            std::this_thread::sleep_for(std::chrono::seconds(3));
+            std::cout << "Tugas " << tugasHapus << " Telah dihapus" << "\n";
         }
         else {
             std::cout << ("Nomor tugas tidak valid");
@@ -160,7 +200,7 @@ void SourceData::RemoveFinishTask(std::vector<std::string>* taskSucced) {
     std::string tugasHapus;
 
     for (int i = 0; i < taskSucced->size(); i++) {
-        std::cout << i << ") " << (*taskSucced)[i] << std::endl;
+        std::cout << i << ") " << (*taskSucced)[i] << "\n";
     }
     std::cout << "Tugas mana yang mau dihapus: ";
     int nomor_tugas;
@@ -175,7 +215,7 @@ void SourceData::RemoveFinishTask(std::vector<std::string>* taskSucced) {
             taskSucced->erase(taskSucced->begin() + nomor_tugas); // Menghapus nomor array yang dipilih
             std::cout << "Memproses tugas yang dihapus...\n";
             std::this_thread::sleep_for(std::chrono::seconds(3));
-            std::cout << "Tugas " << tugasHapus << " Telah dihapus" << std::endl;
+            std::cout << "Tugas " << tugasHapus << " Telah dihapus" << "\n";
         }
         else {
             std::cout << ("Nomor tugas tidak valid");
@@ -192,7 +232,7 @@ void SourceData::EditTask(std::vector<std::string>* mainData) {
     dan memperlihatkan tugas yang sudah di edit
     */
     for (int i = 0; i < mainData->size(); i++) {
-        std::cout << i << ") " << (*mainData)[i] << std::endl;
+        std::cout << i << ") " << (*mainData)[i] << "\n";
     }
     std::cout << "Tugas mana yang mau di edit: ";
     int editTugas;
@@ -209,7 +249,35 @@ void SourceData::EditTask(std::vector<std::string>* mainData) {
             std::this_thread::sleep_for(std::chrono::seconds(3));
             system("cls");
             for (int i = 0; i < mainData->size(); i++) {
-                std::cout << i << ") " << (*mainData)[i] << std::endl;
+                std::cout << i << ") " << (*mainData)[i] << "\n";
+            }
+        }
+        else {
+            std::cout << ("Nomor tugas invalid");
+        }
+    }
+}
+
+void SourceData::EditTaskTodo(std::vector<std::string>* toDo) {
+    for (int i = 0; i < toDo->size(); i++) {
+        std::cout << i << ") " << (*toDo)[i] << "\n";
+    }
+    std::cout << "Tugas mana yang mau di edit: ";
+    int editTugas;
+    if (!(std::cin >> editTugas)) {
+        std::cout << "Input tidak valid, jangan gunakan karakter atau kata-kata unik!";
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    }
+    else {
+        if (editTugas >= 0 && editTugas < toDo->size()) {
+            std::cout << "Edit tugas: ";
+            std::cin >> (*toDo)[editTugas];
+            std::cout << "Memproses tugas yang di edit...\n";
+            std::this_thread::sleep_for(std::chrono::seconds(3));
+            system("cls");
+            for (int i = 0; i < toDo->size(); i++) {
+                std::cout << i << ") " << (*toDo)[i] << "\n";
             }
         }
         else {
@@ -220,7 +288,7 @@ void SourceData::EditTask(std::vector<std::string>* mainData) {
 
 void SourceData::EditFinishTask(std::vector<std::string>* taskSucced) {
     for (int i = 0; i < taskSucced->size(); i++) {
-        std::cout << i << ") " << (*mainData)[i] << std::endl;
+        std::cout << i << ") " << (*mainData)[i] << "\n";
     }
     std::cout << "Tugas mana yang mau di edit: ";
     int editTugas;
@@ -237,7 +305,7 @@ void SourceData::EditFinishTask(std::vector<std::string>* taskSucced) {
             std::this_thread::sleep_for(std::chrono::seconds(3));
             system("cls");
             for (int i = 0; i < taskSucced->size(); i++) {
-                std::cout << i << ") " << (*taskSucced)[i] << std::endl;
+                std::cout << i << ") " << (*taskSucced)[i] << "\n";
             }
         }
         else {
