@@ -3,31 +3,12 @@
 #include <vector>
 #include <thread>
 #include <chrono>
+#include <ncurses.h>
 #include "data_login.h" 
 #include "source_data.h"
-#include "Ui.h"
 
 
 int main(int argc, const char** argv) {
-    // Inisialisasi PDCurses
-    initscr();
-    cbreak();
-    noecho();
-
-    // Membuat window baru
-    Window win(10, 20, 0, 0);
-
-    // Menulis teks ke window
-    win.print("Halo Dunia!");
-
-    // Menampilkan perubahan pada window
-    win.refresh();
-
-    // Menunggu input pengguna
-    getch();
-
-    // Mengakhiri sesi PDCurses
-    endwin();
     std::this_thread::sleep_for(std::chrono::seconds(10));
     std::vector<std::string> data, doWork, dataFinish;
     std::vector<std::string> id, access;

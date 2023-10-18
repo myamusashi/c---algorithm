@@ -157,7 +157,6 @@ void SourceData::RemoveTask(std::vector<std::string>* mainData) {
     }
     else {
         if (nomor_tugas >= 0 && nomor_tugas <= mainData->size()) {
-            mainData[nomor_tugas]; // Mengambil input nomor_tugas
             mainData->erase(mainData->begin() + nomor_tugas); // Menghapus nomor array yang dipilih
             std::cout << "Memproses tugas yang dihapus...\n";
             std::this_thread::sleep_for(std::chrono::seconds(3));
@@ -184,7 +183,6 @@ void SourceData::RemoveTaskToDo(std::vector<std::string>* toDo) {
     }
     else {
         if (nomor_tugas >= 0 && nomor_tugas <=toDo->size()) {
-            toDo[nomor_tugas]; // Mengambil input nomor_tugas
             toDo->erase(toDo->begin() + nomor_tugas); // Menghapus nomor array yang dipilih
             std::cout << "Memproses tugas yang dihapus...\n";
             std::this_thread::sleep_for(std::chrono::seconds(3));
@@ -211,7 +209,6 @@ void SourceData::RemoveFinishTask(std::vector<std::string>* taskSucced) {
     }
     else {
         if (nomor_tugas >= 0 && nomor_tugas <= taskSucced->size()) {
-            taskSucced[nomor_tugas]; // Mengambil input nomor_tugas
             taskSucced->erase(taskSucced->begin() + nomor_tugas); // Menghapus nomor array yang dipilih
             std::cout << "Memproses tugas yang dihapus...\n";
             std::this_thread::sleep_for(std::chrono::seconds(3));
