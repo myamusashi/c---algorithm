@@ -5,7 +5,7 @@
 #include <chrono>
 #include <thread>
 #include <ncurses.h>
-#include "data_login.h"
+#include "credentials.h"
 
 UserPass::UserPass(std::vector<std::string>* id, std::vector<std::string>* access)
     : username(id), password(access) {
@@ -18,7 +18,7 @@ void UserPass::ProcessRegister() {
     init_pair(1, COLOR_WHITE, COLOR_BLACK);
     init_pair(2, COLOR_WHITE, COLOR_BLACK);
 
-    std::string pass_input, user_verification, pass_verification;
+    std::string user_input, pass_input, user_verification, pass_verification;
     char back;
 
     do {
@@ -30,7 +30,7 @@ void UserPass::ProcessRegister() {
         refresh();
         noecho();
 
-        std::string user_input; // store maksimal input
+        // std::string user_input; // store maksimal input
         int chin;
         int i = 0;
         while ((chin = getch()) != '\n') {
@@ -51,11 +51,13 @@ void UserPass::ProcessRegister() {
           }
         }
 
-        user_input[i] = '\0';
+        user_input[i];
         echo();
+        
+        std::regex userRegex("^(?=.*[A-Za-z]{8,})a+$"); // Minimal 8 karakter dengan 1 angka
+        bool user_valid = std::regex_match(user_input, userRegex);
 
-        std::regex userRegex("^[a-zA-Z0-9_]{8,}$"); // Minimal 8 karakter dengan 1 angka
-        if (std::regex_match(user_input, userRegex)) {
+        if (user_valid) {
             mvprintw(6, 2, "Masukkan password anda: ");
             refresh();
             noecho();
@@ -66,6 +68,7 @@ void UserPass::ProcessRegister() {
               if (chin == KEY_BACKSPACE || chin == 127) { // Tombol Backspace
                 if (i > 0) {
                   i--;
+                  user_input.pop_back(); // Remove the last character
                   mvaddch(6, 26 + i, ' '); // Hapus karakter dari layar
                   mvaddch(6, 26 + i - 1, ' '); // Hapus karakter dari layar (untuk karakter sebelumnya)
                   refresh();
@@ -127,6 +130,7 @@ void UserPass::ProcessRegister() {
             } else {
                 mvprintw(8, 2, "Password invalid, minimal 8 karakter dan 1 huruf besar dan 1 angka");
                 refresh();
+
                 std::this_thread::sleep_for(std::chrono::seconds(2));
             }
         } else {

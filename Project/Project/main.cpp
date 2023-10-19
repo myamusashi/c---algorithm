@@ -4,9 +4,8 @@
 #include <thread>
 #include <chrono>
 #include <ncurses.h>
-#include "data_login.h" 
-#include "source_data.h"
-
+#include "processes.h" 
+#include "credentials.h"
 
 int main(int argc, const char** argv) {
     std::this_thread::sleep_for(std::chrono::seconds(10));

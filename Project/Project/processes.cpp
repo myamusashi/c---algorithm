@@ -3,7 +3,7 @@
 #include <vector>
 #include <thread>
 #include <chrono>
-#include "source_data.h"
+#include "processes.h"
 
 SourceData::SourceData(std::vector<std::string>* data, std::vector<std::string>* dataFinish, std::vector<std::string>* doWork)
     : mainData(data), taskSucced(dataFinish), toDo(doWork) {
