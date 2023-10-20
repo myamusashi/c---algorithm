@@ -3,7 +3,7 @@
 #include <vector>
 #include <thread>
 #include <chrono>
-#include <ncurses.h>
+
 #include "processes.h" 
 #include "credentials.h"
 
@@ -22,14 +22,15 @@ int main(int argc, const char** argv) {
     int pilihan;
     char ulang;
 
-    system("cls");
+    std::cout << "\033[2J\033[1;1H";
     std::cout << "\t\t\t***********************************************************************" << std::endl;
     std::cout << "\t\t\t                       Pengelolaan Daftar Tugas                        " << std::endl;
     std::cout << "\t\t\t***********************************************************************\n\n" << std::endl;
     std::this_thread::sleep_for(std::chrono::seconds(2));
 
     do {
-        system("cls");
+        std::cout << "\033[2J\033[1;1H"; // clear console
+
         std::cout << "Menu Utama\n\n";
         std::cout << "Apa yang mau anda lakukan\n";
         std::cout << "1) Mau membuat list tugas baru?\n";
@@ -52,59 +53,59 @@ int main(int argc, const char** argv) {
 
         switch (pilihan) {
         case 1:
-            system("cls");
+            std::cout << "\033[2J\033[1;1H";
             s.AddTask(&data);
             break;
         case 2:
-            system("cls");
+            std::cout << "\033[2J\033[1;1H";
             s.TasktoDo(&doWork);
             break;
         case 3:
-            system("cls");
+            std::cout << "\033[2J\033[1;1H";
             s.CompletedTask(&dataFinish);
             break;
         case 4:
-            system("cls");
+            std::cout << "\033[2J\033[1;1H";
             s.DisplayTask(&data);
             break;
         case 5:
-            system("cls");
+            std::cout << "\033[2J\033[1;1H";
             s.DisplayTaskToDo(&doWork);
             break;
         case 6:
-            system("cls");
+            std::cout << "\033[2J\033[1;1H";
             s.DisplayCompletedTask(&dataFinish);
             break;
         case 7:
-            system("cls");
+            std::cout << "\033[2J\033[1;1H";
             s.RemoveTask(&data);
             break;
         case 8:
-            system("cls");
+            std::cout << "\033[2J\033[1;1H";
             s.RemoveTaskToDo(&doWork);
             break;
         case 9:
-            system("cls");
+            std::cout << "\033[2J\033[1;1H";
             s.RemoveFinishTask(&dataFinish);
             break;
         case 10:
-            system("cls");
+            std::cout << "\033[2J\033[1;1H";
             s.EditTask(&data);
             break;
         case 11:
-            system("cls");
+            std::cout << "\033[2J\033[1;1H";
             s.EditTaskTodo(&doWork);
             break;
         case 12:
-            system("cls");
+            std::cout << "\033[2J\033[1;1H";
             s.EditFinishTask(&dataFinish);
             break;
         case 13:
-            system("cls");
+            std::cout << "\033[2J\033[1;1H";
             c.LoginProgram();
             break;
         case 14:
-            system("cls");
+            std::cout << "\033[2J\033[1;1H";
             c.ProcessRegister();
             break;
         case 15:
