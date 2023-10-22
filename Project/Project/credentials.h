@@ -8,7 +8,7 @@ public:
     // Constructor
     UserPass(std::vector<std::string>* id, std::vector<std::string>* access);
   
-    void ProcessRegister();
+    const int ProcessRegister();
     void LoginProgram();
 private:
     // Data saving
