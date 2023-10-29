@@ -1,14 +1,19 @@
 #pragma once
 
-#include <mongocxx/client.hpp>
-#include <mongocxx/instance.hpp>
+#include <mongocxx/v_noabi/mongocxx/client.hpp>
+#include <mongocxx/v_noabi/mongocxx/instance.hpp>
+#include <mongocxx/v_noabi/mongocxx/uri.hpp>
 #include <bsoncxx/builder/stream/document.hpp>
 
 #include <openssl/sha.h>
 #include <openssl/evp.h> 
 
 #include <iostream>
-#include <conio.h>
+#include <termios.h>
+#include <unistd.h>
+#include <stdio.h>
+#include <cstring>
+#include <cstdlib>
 #include <regex>
 
 using namespace mongocxx;
@@ -37,29 +42,39 @@ MyClass ::~MyClass ()
 }
 
 // Fungsi untuk mendapatkan password dengan input tersembunyi di Windows
-std::string getpass(std::string prompt) 
-{
+std::string getpass(std::string prompt) {
     std::string password;
     char ch;
+    struct termios old_term, new_term;
+
     std::cout << prompt;
+    fflush(stdout);
+
+    // Menyembunyikan input
+    tcgetattr(STDIN_FILENO, &old_term);
+    new_term = old_term;
+    new_term.c_lflag &= ~ECHO;
+    tcsetattr(STDIN_FILENO, TCSANOW, &new_term);
 
     while (1) {
-        ch = _getch(); // Membaca karakter tanpa menampilkannya
-        if (ch == 13) { // 13 adalah kode ASCII untuk tombol Enter
+        ch = getchar();
+        if (ch == '\n') {
             std::cout << std::endl;
             break;
-        }
-        else if (ch == 8) { // 8 adalah kode ASCII untuk tombol Backspace
+        } else if (ch == 127) { // 127 adalah kode ASCII untuk tombol Backspace
             if (!password.empty()) {
                 std::cout << "\b \b"; // Menghapus karakter terakhir dari tampilan
                 password.pop_back(); // Menghapus karakter terakhir dari password
             }
-        }
-        else {
+        } else {
             std::cout << '*'; // Menampilkan karakter '*' sebagai pengganti
             password.push_back(ch); // Menambahkan karakter ke password
         }
     }
+
+    // Mengembalikan pengaturan terminal asli
+    tcsetattr(STDIN_FILENO, TCSANOW, &old_term);
+
     return password;
 }
 
@@ -86,25 +101,24 @@ std::string HashPassword(const std::string& password)
 }
 
 /*----------------------------VERIFICATION ACCOUNT----------------------------------------------*/
-bool VerifyUser(const std::string& username, const std::string& inputPassword, mongocxx::collection& coll) 
-{
+bool VerifyUser(const std::string& username, const std::string& inputPassword, mongocxx::collection& coll) {
     // Query database untuk mengambil hashed password dan username yang diberikan
-    bsoncxx::document::value query_docUser = make_document(kvp("username", username));
+    bsoncxx::document::value query_docUser = bsoncxx::builder::stream::document{} << "username" << username << bsoncxx::builder::stream::finalize;
     mongocxx::cursor cursorUser = coll.find(query_docUser.view());
 
     std::string storedHashedPassword;
 
     for (auto&& docUser : cursorUser) {
         for (const bsoncxx::document::element& elementUser : docUser) {
-            if (elementUser.key() == "password" && elementUser.type() == bsoncxx::type::k_utf8) {
-                storedHashedPassword = elementUser.get_string().value;
+            if (elementUser.key() == core::v1::string_view("password") && elementUser.type() == bsoncxx::type::k_utf8) {
+                storedHashedPassword = elementUser.get_string().value.to_string();
             }
         }
     }
 
     if (storedHashedPassword.empty()) {
-        // Username tidak ada di databases
-        std::cout << "Username Tidak ada di databases";
+        // Username tidak ada di database
+        std::cout << "Username Tidak ada di database" << std::endl;
         return false;
     }
 
@@ -112,43 +126,31 @@ bool VerifyUser(const std::string& username, const std::string& inputPassword, m
 
     return hashedInputPassword == storedHashedPassword;
 }
+
 /*----------------------------ENVIRONMENT VARIABLE----------------------------------------------*/
-std::string getEnvironmentVariable(std::string environmentVarKey) 
-{
-    char* pBuffer = nullptr;
-    size_t size = 0;
-    auto key = environmentVarKey.c_str();
-    // Use the secure version of getenv, ie. _dupenv_s to fetch environment variable.
-    if (_dupenv_s(&pBuffer, &size, key) == 0 && pBuffer != nullptr)
-    {
-        std::string environmentVarValue(pBuffer);
-        free(pBuffer);
+std::string getEnvironmentVariable(const std::string& environmentVarKey) {
+    const char* envValue = std::getenv(environmentVarKey.c_str());
+    
+    if (envValue != nullptr) {
+        std::string environmentVarValue(envValue);
         return environmentVarValue;
-    }
-    else
-    {
+    } else {
+        std::cerr << "Environment variable MONGODB_URI is not set.";
         return "";
     }
 }
-auto mongoURIStr = getEnvironmentVariable("mongodb+srv://admin:Password@tlm.zdzyu1q.mongodb.net/?retryWrites=true&w=majority");
+auto mongoURIStr = getEnvironmentVariable("MONGODB_URI");
 static const mongocxx::uri mongoURI = mongocxx::uri{ mongoURIStr };
-// Get all the databases from a given client.
-std::vector<std::string> getDatabases(mongocxx::client& client) 
-{
-    return client.list_database_names();
-}
-
 /*----------------------------REGISTRATION & LOGIN----------------------------------------------*/
 void ProcessRegister() 
 {
     // Start Instance mongodb
-    instance inst{};
     options::client client_options;
     auto api = mongocxx::options::server_api{ mongocxx::options::server_api::version::k_version_1 };
     client_options.server_api_opts(api);
     client conn{ mongoURI, client_options };
     database db = conn["datamain"];
-    collection coll = db["MAINTASK"];
+    collection coll = db["account"];
 
     std::string back_auth;
     char back;
@@ -230,14 +232,12 @@ void ProcessRegister()
 
 void LoginProgram() 
 {
-    
-    instance inst{};
     options::client client_options;
     auto api = mongocxx::options::server_api{ mongocxx::options::server_api::version::k_version_1 };
     client_options.server_api_opts(api);
     client conn{ mongoURI, client_options };
     database db = conn["datamain"];
-    collection coll = db["MAINTASK"];
+    collection coll = db["account"];
 
     std::string back;
     do 

@@ -1,3 +1,5 @@
+#include "mongocxx/instance.hpp"
+
 #include <iostream>
 #include <string>
 #include <vector>
@@ -8,16 +10,15 @@
 #include "credentials.h"
 
 int main(int argc, const char** argv) {
-    std::this_thread::sleep_for(std::chrono::seconds(10));
-    std::vector<std::string> data, doWork, dataFinish;
-    std::vector<std::string> id, access;
+    mongocxx::instance inst{};
 
+    std::vector<std::string> data, doWork, dataFinish;
+    
     // Membuat objek UserPass dan SourceData
     SourceData s(&data, &dataFinish, &doWork);
-    UserPass c(&id, &access);
     
     // Memanggil metode ProcessRegister untuk proses pendaftaran
-    c.ProcessRegister();
+    ProcessRegister();
 
     int pilihan;
     char ulang;
@@ -102,11 +103,11 @@ int main(int argc, const char** argv) {
             break;
         case 13:
             std::cout << "\033[2J\033[1;1H";
-            c.LoginProgram();
+            LoginProgram();
             break;
         case 14:
             std::cout << "\033[2J\033[1;1H";
-            c.ProcessRegister();
+            ProcessRegister();
             break;
         case 15:
             std::cout << "Anda memilih keluar...";
