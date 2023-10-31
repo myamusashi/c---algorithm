@@ -1,24 +1,44 @@
-#include "mongocxx/instance.hpp"
-
+#include <chrono>
 #include <iostream>
 #include <string>
-#include <vector>
 #include <thread>
-#include <chrono>
+#include <vector>
 
-#include "processes.h" 
 #include "credentials.h"
+#include "mongocxx/instance.hpp"
+#include "mongocxx/options/client.hpp"
+#include "processes.h"
 
-int main(int argc, const char** argv) {
-    mongocxx::instance inst{};
+/*----------------------------ENVIRONMENT VARIABLE----------------------------------------------*/
+std::string getEnvironmentVariable(const std::string &environmentVarKey)
+{
+    const char *envValue = std::getenv(environmentVarKey.c_str());
+
+    if (envValue != nullptr)
+    {
+        std::string environmentVarValue(envValue);
+        return environmentVarValue;
+    }
+    else
+    {
+        std::cerr << "Environment variable MONGODB_URI is not set.";
+        return "";
+    }
+}
+std::string mongoURIStr = getEnvironmentVariable("MONGODB_URI");
+const mongocxx::uri mongoURI = mongocxx::uri{mongoURIStr};
+
+int main(int argc, const char **argv)
+{
+    CredentialAccess credentials(mongoURI.to_string(), "datamain", "account");
 
     std::vector<std::string> data, doWork, dataFinish;
-    
+
     // Membuat objek UserPass dan SourceData
     SourceData s(&data, &dataFinish, &doWork);
-    
+
     // Memanggil metode ProcessRegister untuk proses pendaftaran
-    ProcessRegister();
+    credentials.ProcessRegister();
 
     int pilihan;
     char ulang;
@@ -26,10 +46,11 @@ int main(int argc, const char** argv) {
     std::cout << "\033[2J\033[1;1H";
     std::cout << "\t\t\t***********************************************************************" << std::endl;
     std::cout << "\t\t\t                       Pengelolaan Daftar Tugas                        " << std::endl;
-    std::cout << "\t\t\t***********************************************************************\n\n" << std::endl;
+    std::cout << "\t\t\t***********************************************************************" << std::endl;
     std::this_thread::sleep_for(std::chrono::seconds(2));
 
-    do {
+    do
+    {
         std::cout << "\033[2J\033[1;1H"; // clear console
 
         std::cout << "Menu Utama\n\n";
@@ -52,7 +73,8 @@ int main(int argc, const char** argv) {
         std::cout << "Pilih menu yang mau anda lakukan(1-15): ";
         std::cin >> pilihan;
 
-        switch (pilihan) {
+        switch (pilihan)
+        {
         case 1:
             std::cout << "\033[2J\033[1;1H";
             s.AddTask(&data);
@@ -103,11 +125,11 @@ int main(int argc, const char** argv) {
             break;
         case 13:
             std::cout << "\033[2J\033[1;1H";
-            LoginProgram();
+            credentials.LoginProgram();
             break;
         case 14:
             std::cout << "\033[2J\033[1;1H";
-            ProcessRegister();
+            credentials.ProcessRegister();
             break;
         case 15:
             std::cout << "Anda memilih keluar...";
@@ -117,7 +139,8 @@ int main(int argc, const char** argv) {
             std::cout << "Pilihan anda tidak ada";
         }
         std::cout << std::endl;
-        std::cout << "1) Lanjut\n" << "2) Keluar\n";
+        std::cout << "1) Lanjut\n"
+                  << "2) Keluar\n";
         std::cout << "Ingin lanjut ke program atau keluar? ";
         std::cin >> ulang;
     } while (ulang != '2');
