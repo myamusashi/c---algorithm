@@ -1,6 +1,3 @@
-#include <mongocxx/v_noabi/mongocxx/client.hpp>
-#include <mongocxx/v_noabi/mongocxx/instance.hpp>
-#include <mongocxx/v_noabi/mongocxx/uri.hpp>
 #include <bsoncxx/builder/stream/document.hpp>
 
 #include <openssl/sha.h>
@@ -10,12 +7,9 @@
 #include <thread>
 #include <termios.h>
 #include <unistd.h>
-#include <stdio.h>
-#include <cstring>
-#include <cstdlib>
 #include <regex>
 
-#include "credentials.h"
+#include "../headers/credentials.h"
 
 const std::string USERNAME_REGEX_PATTERN = "^(?=.*[A-Za-z].*\\d)[A-Za-z\\d]{8,}$"; // Criteria username: minimal 8 karakter dengan 1 karakter besar
 const std::string PASSWORD_REGEX_PATTERN = "^(?=.*[A-Z])(?=.*\\d).{8,}$"; // Criteria password: minimal 8 karakter dengan 1 karakter besar dan 1 digit
@@ -25,9 +19,9 @@ using bsoncxx::document::value;
 using bsoncxx::builder::stream::document;
 using bsoncxx::builder::stream::finalize;
 
-CredentialAccess::CredentialAccess(const std::string& conn, const std::string& dbs, const std::string& coll) 
+CredentialAccess::CredentialAccess(const std::string& conn, const std::string& db, const std::string& coll) 
   : connection_(mongocxx::uri(conn)), 
-    database_(connection_[dbs]), 
+    database_(connection_[db]), 
     collection_(database_[coll]) {
   // Constructor if you want to put something here
 }
@@ -145,8 +139,7 @@ bool VerifyUser(const std::string& username, const std::string& inputPassword, m
 void CredentialAccess::ProcessRegister() 
 {
     std::string back_auth;
-    char back;
-    
+    std::string back;
     do 
     {
         std::cout << "\033[2J\033[1;1H";
@@ -201,7 +194,7 @@ void CredentialAccess::ProcessRegister()
                         std::cout << "\033[2J\033[1;1H";
                         std::cout << "Verifikasi gagal, username atau password tidak cocok." << std::endl;
                         std::this_thread::sleep_for(std::chrono::seconds(2));
-                    }// using bsoncxx::builder::basic::make_document;
+                    }
 
                     std::cout << "Login kembali? (y/n)";
                     std::cin >> back_auth;
@@ -222,7 +215,14 @@ void CredentialAccess::ProcessRegister()
         }
         std::cout << "Ingin Registrasi kembali? (y/n)? ";
         std::cin >> back;
-    } while (back == 'y' || back == 'Y');
+        if (back == "n" || back == "N") 
+        {
+          exit(66);
+        } else {
+          std::cout << "Bukan input yang diharapkan!";
+          exit(404);
+        }
+    } while (back == "y" || back == "Y");
 }
 
 void CredentialAccess::LoginProgram() 
@@ -259,6 +259,11 @@ void CredentialAccess::LoginProgram()
         if (back == "n" || back == "N") 
         {
             exit(66);
+        } 
+        else 
+        {
+          std::cout << "Bukan input yang diharapkan!";
+          exit(404);
         }
     } while (back == "y" || back == "Y");
 }

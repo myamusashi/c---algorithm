@@ -2,13 +2,11 @@
 #include <iostream>
 #include <string>
 #include <thread>
-#include <vector>
 
-#include "credentials.h"
+#include "../headers/credentials.h"
 #include "mongocxx/instance.hpp"
-#include "mongocxx/options/client.hpp"
-#include "processes.h"
-
+#include "mongocxx/uri.hpp"
+#include "../headers/processes.h"
 /*----------------------------ENVIRONMENT VARIABLE----------------------------------------------*/
 std::string getEnvironmentVariable(const std::string &environmentVarKey)
 {
@@ -25,20 +23,43 @@ std::string getEnvironmentVariable(const std::string &environmentVarKey)
         return "";
     }
 }
-std::string mongoURIStr = getEnvironmentVariable("MONGODB_URI");
-const mongocxx::uri mongoURI = mongocxx::uri{mongoURIStr};
+auto mongoURIStr = getEnvironmentVariable("MONGODB_URI");
+static const mongocxx::uri mongoURI = mongocxx::uri{ mongoURIStr };
 
 int main(int argc, const char **argv)
 {
-    CredentialAccess credentials(mongoURI.to_string(), "datamain", "account");
+    mongocxx::instance inst{};
+    CredentialAccess credentials(mongoURI.to_string(), "authentication", "user_accounts");
+    SourceData data(mongoURI.to_string(), "datamain", "MAINTASK", "TODOTASK", "FINISHTASK");
+    
+    std::cout << "\033[2J\033[1;1H";
+    std::cout << "\t\t\t\t\t\tLogin\n";
+    std::cout << "\t\t\t\t\t\t(1) Login akun\n";
+    std::cout << "\t\t\t\t\t\t(2) Registrasi akun\n";
+    std::cout << "\t\t\t\t\t\tSilahkan masuk atau daftar akun anda (1/2): ";
+    std::string choice;
+    std::getline(std::cin, choice);
 
-    std::vector<std::string> data, doWork, dataFinish;
-
-    // Membuat objek UserPass dan SourceData
-    SourceData s(&data, &dataFinish, &doWork);
-
-    // Memanggil metode ProcessRegister untuk proses pendaftaran
-    credentials.ProcessRegister();
+    try {
+        int option = std::stoi(choice);  
+        switch (option) { 
+            case 1:
+                credentials.LoginProgram();
+                break;
+            case 2:
+                credentials.ProcessRegister();
+                break;
+            default:
+                std::cout << "Input tidak valid. Silakan pilih 1 atau 2.\n";
+                return 1; 
+        }
+    } catch (std::invalid_argument& e) {
+        std::cout << "Input tidak valid. Silakan pilih 1 atau 2.\n";
+        return 1;
+    } catch (std::out_of_range& e) {
+        std::cout << "Input tidak valid. Silakan pilih 1 atau 2.\n";
+        return 1; 
+    }
 
     int pilihan;
     char ulang;
@@ -77,51 +98,51 @@ int main(int argc, const char **argv)
         {
         case 1:
             std::cout << "\033[2J\033[1;1H";
-            s.AddTask(&data);
+            data.AddTask();
             break;
         case 2:
             std::cout << "\033[2J\033[1;1H";
-            s.TasktoDo(&doWork);
+            //data.TasktoDo();
             break;
         case 3:
             std::cout << "\033[2J\033[1;1H";
-            s.CompletedTask(&dataFinish);
+            //data.CompletedTask();
             break;
         case 4:
             std::cout << "\033[2J\033[1;1H";
-            s.DisplayTask(&data);
+            //data.DisplayTask();
             break;
         case 5:
             std::cout << "\033[2J\033[1;1H";
-            s.DisplayTaskToDo(&doWork);
+            //data.DisplayTaskToDo();
             break;
         case 6:
             std::cout << "\033[2J\033[1;1H";
-            s.DisplayCompletedTask(&dataFinish);
+            //data.DisplayCompletedTask();
             break;
         case 7:
             std::cout << "\033[2J\033[1;1H";
-            s.RemoveTask(&data);
+            //data.RemoveTask();
             break;
         case 8:
             std::cout << "\033[2J\033[1;1H";
-            s.RemoveTaskToDo(&doWork);
+            //data.RemoveTaskToDo();
             break;
         case 9:
             std::cout << "\033[2J\033[1;1H";
-            s.RemoveFinishTask(&dataFinish);
+            //data.RemoveFinishTask();
             break;
         case 10:
             std::cout << "\033[2J\033[1;1H";
-            s.EditTask(&data);
+            //data.EditTask();
             break;
         case 11:
             std::cout << "\033[2J\033[1;1H";
-            s.EditTaskTodo(&doWork);
+            //data.EditTaskTodo();
             break;
         case 12:
             std::cout << "\033[2J\033[1;1H";
-            s.EditFinishTask(&dataFinish);
+            //data.EditFinishTask();
             break;
         case 13:
             std::cout << "\033[2J\033[1;1H";
