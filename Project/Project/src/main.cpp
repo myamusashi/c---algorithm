@@ -30,7 +30,7 @@ int main(int argc, const char **argv)
 {
     mongocxx::instance inst{};
     CredentialAccess credentials(mongoURI.to_string(), "authentication", "user_accounts");
-    SourceData data(mongoURI.to_string(), "datamain", "MAINTASK", "TODOTASK", "FINISHTASK");
+    SourceData data(mongoURI.to_string(), "task", "new_task", "task_todo", "finish_task");
     
     std::cout << "\033[2J\033[1;1H";
     std::cout << "\t\t\t\t\t\tLogin\n";
@@ -73,7 +73,6 @@ int main(int argc, const char **argv)
     do
     {
         std::cout << "\033[2J\033[1;1H"; // clear console
-
         std::cout << "Menu Utama\n\n";
         std::cout << "Apa yang mau anda lakukan\n";
         std::cout << "1) Mau membuat list tugas baru?\n";
@@ -102,7 +101,7 @@ int main(int argc, const char **argv)
             break;
         case 2:
             std::cout << "\033[2J\033[1;1H";
-            //data.TasktoDo();
+            data.TasktoDo();
             break;
         case 3:
             std::cout << "\033[2J\033[1;1H";

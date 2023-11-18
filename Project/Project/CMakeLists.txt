@@ -24,26 +24,27 @@ find_package(OpenSSL REQUIRED)
 include_directories(${LIBMONGOCXX_INCLUDE_DIR})
 include_directories(${LIBBSONCXX_INCLUDE_DIR})
 #[[ include_directories(${OPENSSL_INCLUDE_DIR}) ]]
-include_directories("/usr/include/mongocxx/v_noabi")
-include_directories("/usr/include/bsoncxx/v_noabi")
-include_directories("/usr/include/libmongoc-1.0")
-include_directories("/usr/include/libbson-1.0")
-include_directories("/usr/lib")
+include_directories("/usr/local/include/mongocxx/v_noabi")
+include_directories("/usr/local/include/bsoncxx/v_noabi")
+include_directories("/usr/local/include/libmongoc-1.0")
+include_directories("/usr/local/include/libbson-1.0")
+include_directories("/usr/local/lib")
+include_directories("/usr/local/include/bsoncxx/v_noabi/bsoncxx/third_party/mnmlstc")
 
 # ------------------------------------------------------------------------------
  
-project(ftxui-starter
+project(tlm
   LANGUAGES CXX
   VERSION 1.0.0
 )
  
-add_executable(ftxui-starter src/credentials.cpp src/processes.cpp src/main.cpp)
-target_include_directories(ftxui-starter PRIVATE src)
+add_executable(tlm src/credentials.cpp src/processes.cpp src/main.cpp)
+target_include_directories(tlm PRIVATE src)
  
 # target_link_libraries(ftxui-starter ${LIBMONGOCXX_LIBRARIES})
 # target_link_libraries(ftxui-starter ${LIBBSONCXX_LIBRARIES})
 
-target_link_libraries(ftxui-starter
+target_link_libraries(tlm
   PRIVATE OpenSSL::SSL 
   PRIVATE OpenSSL::Crypto
   PRIVATE ${LIBMONGOCXX_LIBRARIES}

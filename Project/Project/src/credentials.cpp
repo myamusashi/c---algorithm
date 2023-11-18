@@ -134,7 +134,7 @@ bool VerifyUser(const std::string& username, const std::string& inputPassword, m
     return hashedInputPassword == storedHashedPassword;
 }
 
-/*----------------------------REGISTRATION & LOGIN----------------------------------------------*/
+/*----------------------------METHOD REGISTRATION & LOGIN----------------------------------------------*/
 
 void CredentialAccess::ProcessRegister() 
 {
