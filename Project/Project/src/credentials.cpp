@@ -9,7 +9,7 @@
 #include <unistd.h>
 #include <regex>
 
-#include "../headers/credentials.h"
+#include "../headers/credentials.hpp"
 
 const std::string USERNAME_REGEX_PATTERN = "^(?=.*[A-Za-z].*\\d)[A-Za-z\\d]{8,}$"; // Criteria username: minimal 8 karakter dengan 1 karakter besar
 const std::string PASSWORD_REGEX_PATTERN = "^(?=.*[A-Z])(?=.*\\d).{8,}$"; // Criteria password: minimal 8 karakter dengan 1 karakter besar dan 1 digit
@@ -94,7 +94,7 @@ std::string HashPassword(const std::string& password)
 }
 
 /*----------------------------VERIFICATION ACCOUNT----------------------------------------------*/
-/**
+/*
  * Fungsi ini akan mengecek apakah username dan password yang diberikan ada di
  * DB collection. Dan apakah username dan hash password yang diberikan
  * sama dengan username dan hashed password yang ada di dalam db.
@@ -102,8 +102,11 @@ std::string HashPassword(const std::string& password)
  * @param username       username untuk verifikasi.
  * @param inputPassword  input password yang akan diverifikasi.
  * @param coll           Meminta query collection dari db.
- * @return               Jika username ada di db dan passwordnya benar akan dimasukkan ke collection_,
- *                       jika salah sebaliknya.
+ * @return               @return mengembalikan nilai false jika:                       
+ *                         - Username yang dimasukkan ditemukan dalam kumpulan data, tetapi password yang 
+ *                           dimasukkan tidak cocok dengan password yang tersimpan untuk username tersebut.
+ *                         - Username yang dimasukkan tidak ditemukan dalam kumpulan data.
+ *                       @return mengembalikan nilai true jika username dan password yang dimasukkan cocok.
  */
 bool VerifyUser(const std::string& username, const std::string& inputPassword, mongocxx::collection& coll) {
     // Query database untuk mengambil hashed password dan username yang diberikan
