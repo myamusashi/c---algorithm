@@ -1,8 +1,6 @@
 #!/bin/bash
 
 # Compile C++ code with specified flags
-cd ~/project/build/
-
 # qmake -spec linux-g++ -config c++17 Project.pro
 # make -j4
 
@@ -12,12 +10,15 @@ if [ $? -eq 0 ]; then
     read -p "Pilih opsi (1/2): " choice
 
     if [ "$choice" = "1" ]; then
-        cmake ..
+        cd $HOME/project/Release/build/
+        cmake -DCMAKE_BUILD_TYPE=Release ..
         make -j4
         ./tlm
     elif [ "$choice" = "2" ]; then
-        c++ -std=c++17 -g -o debug ../*.cpp $(pkg-config --cflags --libs libmongocxx)-lssl -lcrypto
-        gdb ./debug
+        cd $HOME/project/Debug/build/
+        cmake -DCMAKE_BUILD_TYPE=Debug ..
+        make -j4
+        gdb ./tlm
     else
         echo "Opsi tidak valid. Keluar."
     fi
