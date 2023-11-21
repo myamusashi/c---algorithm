@@ -9,7 +9,7 @@
 #include <unistd.h>
 #include <regex>
 
-#include "../headers/credentials.hpp"
+#include "headers/credentials.hpp"
 
 const std::string USERNAME_REGEX_PATTERN = "^(?=.*[A-Za-z].*\\d)[A-Za-z\\d]{8,}$"; // Criteria username: minimal 8 karakter dengan 1 karakter besar
 const std::string PASSWORD_REGEX_PATTERN = "^(?=.*[A-Z])(?=.*\\d).{8,}$"; // Criteria password: minimal 8 karakter dengan 1 karakter besar dan 1 digit
