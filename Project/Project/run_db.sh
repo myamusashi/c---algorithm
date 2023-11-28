@@ -10,14 +10,14 @@ if [ $? -eq 0 ]; then
     read -p "Pilih opsi (1/2): " choice
 
     if [ "$choice" = "1" ]; then
-        cd $HOME/project/Release/build/
+        cd "$HOME/project/Release/build/"
         cmake -DCMAKE_BUILD_TYPE=Release ..
-        make -j4
+        make -j
         ./tlm
     elif [ "$choice" = "2" ]; then
-        cd $HOME/project/Debug/build/
+        cd "$HOME/project/Debug/build/"
         cmake -DCMAKE_BUILD_TYPE=Debug ..
-        make -j4
+        make -j
         gdb ./tlm
     else
         echo "Opsi tidak valid. Keluar."
