@@ -10,12 +10,12 @@ if [ $? -eq 0 ]; then
     read -p "Pilih opsi (1/2): " choice
 
     if [ "$choice" = "1" ]; then
-        cd "$HOME/project/Release/build/"
+        cd "$HOME/Documents/Projects/task-list-management/release/build/"
         cmake -DCMAKE_BUILD_TYPE=Release ..
         make -j
         ./tlm
     elif [ "$choice" = "2" ]; then
-        cd "$HOME/project/Debug/build/"
+        cd "$HOME/Documents/Projects/task-list-management/debug/build/"
         cmake -DCMAKE_BUILD_TYPE=Debug ..
         make -j
         gdb ./tlm
@@ -26,4 +26,3 @@ else
     echo "Kesalahan saat kompilasi. Tekan Enter untuk melanjutkan atau Ctrl+C untuk keluar."
     read -p "Press Enter to continue"
 fi
-

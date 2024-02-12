@@ -1,11 +1,10 @@
-#include "headers/credentials.hpp"
-#include "headers/connection.hpp"
-#include "headers/processes.hpp"
-
 #include <chrono>
 #include <iostream>
 #include <thread>
 
+#include "../libs/connection.hpp"
+#include "../libs/credentials.hpp"
+#include "../libs/processes.hpp"
 #include "mongocxx/instance.hpp"
 #include "mongocxx/uri.hpp"
 

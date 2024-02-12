@@ -1,29 +1,31 @@
-#include <bsoncxx/builder/stream/document.hpp>
+#include "../libs/credentials.hpp"
 
+#include <openssl/evp.h>
 #include <openssl/sha.h>
-#include <openssl/evp.h> 
-
-#include <iostream>
-#include <thread>
 #include <termios.h>
 #include <unistd.h>
+
+#include <bsoncxx/builder/stream/document.hpp>
+#include <iostream>
 #include <regex>
+#include <thread>
 
-#include "headers/credentials.hpp"
-
-const std::string USERNAME_REGEX_PATTERN = "^(?=.*[A-Za-z].*\\d)[A-Za-z\\d]{8,}$"; // Criteria username: minimal 8 karakter dengan 1 karakter besar
-const std::string PASSWORD_REGEX_PATTERN = "^(?=.*[A-Z])(?=.*\\d).{8,}$"; // Criteria password: minimal 8 karakter dengan 1 karakter besar dan 1 digit
+const std::string USERNAME_REGEX_PATTERN =
+    "^(?=.*[A-Za-z].*\\d)[A-Za-z\\d]{8,}$";  // Criteria username: minimal 8 karakter dengan 1
+                                             // karakter besar
+const std::string PASSWORD_REGEX_PATTERN =
+    "^(?=.*[A-Z])(?=.*\\d).{8,}$";  // Criteria password: minimal 8 karakter dengan 1 karakter besar
+                                    // dan 1 digit
 
 using bsoncxx::builder::basic::kvp;
-using bsoncxx::document::value;
 using bsoncxx::builder::stream::document;
 using bsoncxx::builder::stream::finalize;
+using bsoncxx::document::value;
 
-CredentialAccess::CredentialAccess(const std::string& conn, const std::string& db, const std::string& coll) 
-  : connection_(mongocxx::uri(conn)), 
-    database_(connection_[db]), 
-    collection_(database_[coll]) {
-  // Constructor if you want to put something here
+CredentialAccess::CredentialAccess(const std::string& conn, const std::string& db,
+                                   const std::string& coll)
+    : connection_(mongocxx::uri(conn)), database_(connection_[db]), collection_(database_[coll]) {
+    // Constructor if you want to put something here
 }
 
 // Fungsi untuk mendapatkan password dengan input tersembunyi
@@ -46,14 +48,14 @@ std::string getpass(std::string prompt) {
         if (ch == '\n') {
             std::cout << std::endl;
             break;
-        } else if (ch == 127) { // 127 adalah kode ASCII untuk tombol Backspace
+        } else if (ch == 127) {  // 127 adalah kode ASCII untuk tombol Backspace
             if (!password.empty()) {
-                std::cout << "\b \b"; // Menghapus karakter terakhir dari tampilan
-                password.pop_back(); // Menghapus karakter terakhir dari password
+                std::cout << "\b \b";  // Menghapus karakter terakhir dari tampilan
+                password.pop_back();   // Menghapus karakter terakhir dari password
             }
         } else {
-            std::cout << '*'; // Menampilkan karakter '*' sebagai pengganti
-            password.push_back(ch); // Menambahkan karakter ke password
+            std::cout << '*';        // Menampilkan karakter '*' sebagai pengganti
+            password.push_back(ch);  // Menambahkan karakter ke password
         }
     }
 
@@ -72,16 +74,16 @@ std::string getpass(std::string prompt) {
  *
  * @param password   plaintext password yang akan dikasih hashed.
  * @return           Hashed password yang akan di presentasikan sebagai sebuah hexadecimal string.
-*/
-std::string HashPassword(const std::string& password) 
-{
-    EVP_MD_CTX* ctx = EVP_MD_CTX_new();                           // Buat sebuah konteks untuk hashing.
-    EVP_DigestInit_ex(ctx, EVP_sha256(), NULL);                   // Initialize ctx dengan SHA256 algorithm.
-    EVP_DigestUpdate(ctx, password.c_str(), password.length());   // Update ctx dengan password.
-    unsigned char md[SHA256_DIGEST_LENGTH];                       // Deklarasi array untuk di taruh ke store dan outputnya ke hash.
-    unsigned int md_len;                                          // Deklarasi sebuah variable ke store yang berisi panjang dari hash.
-    EVP_DigestFinal_ex(ctx, md, &md_len);                         // Finalisasi ctx dan store hash di dalam output array.
-    EVP_MD_CTX_free(ctx);                                         // Delete ctx.
+ */
+std::string HashPassword(const std::string& password) {
+    EVP_MD_CTX* ctx = EVP_MD_CTX_new();          // Buat sebuah konteks untuk hashing.
+    EVP_DigestInit_ex(ctx, EVP_sha256(), NULL);  // Initialize ctx dengan SHA256 algorithm.
+    EVP_DigestUpdate(ctx, password.c_str(), password.length());  // Update ctx dengan password.
+    unsigned char
+        md[SHA256_DIGEST_LENGTH];  // Deklarasi array untuk di taruh ke store dan outputnya ke hash.
+    unsigned int md_len;  // Deklarasi sebuah variable ke store yang berisi panjang dari hash.
+    EVP_DigestFinal_ex(ctx, md, &md_len);  // Finalisasi ctx dan store hash di dalam output array.
+    EVP_MD_CTX_free(ctx);                  // Delete ctx.
 
     // Ubah hash menjadi hexadecimal string
     std::string hashedPassword;
@@ -102,62 +104,64 @@ std::string HashPassword(const std::string& password)
  * @param username       username untuk verifikasi.
  * @param inputPassword  input password yang akan diverifikasi.
  * @param coll           Meminta query collection dari db.
- * @return               @return mengembalikan nilai false jika:                       
- *                         - Username yang dimasukkan ditemukan dalam kumpulan data, tetapi password yang 
- *                           dimasukkan tidak cocok dengan password yang tersimpan untuk username tersebut.
+ * @return               @return mengembalikan nilai false jika:
+ *                         - Username yang dimasukkan ditemukan dalam kumpulan data, tetapi password
+ * yang dimasukkan tidak cocok dengan password yang tersimpan untuk username tersebut.
  *                         - Username yang dimasukkan tidak ditemukan dalam kumpulan data.
- *                       @return mengembalikan nilai true jika username dan password yang dimasukkan cocok.
+ *                       @return mengembalikan nilai true jika username dan password yang dimasukkan
+ * cocok.
  */
-bool VerifyUser(const std::string& username, const std::string& inputPassword, mongocxx::collection& coll) {
+bool VerifyUser(const std::string& username, const std::string& inputPassword,
+                mongocxx::collection& coll) {
     // Query database untuk mengambil hashed password dan username yang diberikan
     value query_docUser = document{} << "username" << username << finalize;
     mongocxx::cursor cursorUser = coll.find(query_docUser.view());
 
     std::string storedHashedPassword;
-    
+
     // Iterasi search result
     for (auto&& docUser : cursorUser) {
         for (const bsoncxx::document::element& elementUser : docUser) {
-            // Cari dan simpan hashed password 
-              if (elementUser.key() == core::v1::string_view("password") && elementUser.type() == bsoncxx::type::k_utf8) {
+            // Cari dan simpan hashed password
+            if (elementUser.key() == core::v1::string_view("password") &&
+                elementUser.type() == bsoncxx::type::k_utf8) {
                 storedHashedPassword = elementUser.get_string().value.to_string();
             }
         }
     }
-    
-    // Check username jika tidak ada di db 
+
+    // Check username jika tidak ada di db
     if (storedHashedPassword.empty()) {
         std::cout << "Username Tidak ada di database" << std::endl;
         return false;
     }
 
     std::string hashedInputPassword = HashPassword(inputPassword);
-    
+
     // Mengembalikan nilai password jika ada dan sama
     return hashedInputPassword == storedHashedPassword;
 }
 
-/*----------------------------METHOD REGISTRATION & LOGIN----------------------------------------------*/
+/*----------------------------METHOD REGISTRATION &
+ * LOGIN----------------------------------------------*/
 
-void CredentialAccess::ProcessRegister() 
-{
+void CredentialAccess::ProcessRegister() {
     std::string back_auth;
     std::string back;
-    do 
-    {
+    do {
         std::cout << "\033[2J\033[1;1H";
         std::cout << "\t\t\tHalaman registrasi user baru\n";
 
-        std::string user_input; std::cout << "Masukkan username anda: ";
+        std::string user_input;
+        std::cout << "Masukkan username anda: ";
         std::cin >> user_input;
 
-        std::regex USERREGEX(USERNAME_REGEX_PATTERN); 
+        std::regex USERREGEX(USERNAME_REGEX_PATTERN);
         bool user_valid = std::regex_match(user_input, USERREGEX);
 
-        if (user_valid) 
-        {
+        if (user_valid) {
             std::string pass_input = getpass("Masukkan password anda: ");
-           
+
             std::regex PASSREGEX(PASSWORD_REGEX_PATTERN);
             if (std::regex_match(pass_input, PASSREGEX)) {
                 std::string hashedpassword = HashPassword(pass_input);
@@ -170,12 +174,12 @@ void CredentialAccess::ProcessRegister()
                 std::cout << "Username dan password valid, akun telah terdaftar.\n";
                 std::this_thread::sleep_for(std::chrono::seconds(2));
 
-                do 
-                {
+                do {
                     std::cout << "\033[2J\033[1;1H";
                     std::cout << "Login ke akun anda\n";
 
-                    std::string user_verification; std::cout << "Username anda: ";
+                    std::string user_verification;
+                    std::cout << "Username anda: ";
                     std::cin >> user_verification;
 
                     std::string pass_verification = getpass("Password anda: ");
@@ -184,89 +188,75 @@ void CredentialAccess::ProcessRegister()
                     std::cout << "verifikasi account...\n";
                     std::this_thread::sleep_for(std::chrono::seconds(2));
 
-                    if (isVerified) 
-                    {
+                    if (isVerified) {
                         std::cout << "\033[2J\033[1;1H";
                         std::cout << "Verifikasi berhasil." << std::endl;
                         std::cout << "Masuk program..." << std::endl;
                         std::this_thread::sleep_for(std::chrono::seconds(1));
                         break;
-                    }
-                    else 
-                    {
+                    } else {
                         std::cout << "\033[2J\033[1;1H";
-                        std::cout << "Verifikasi gagal, username atau password tidak cocok." << std::endl;
+                        std::cout << "Verifikasi gagal, username atau password tidak cocok."
+                                  << std::endl;
                         std::this_thread::sleep_for(std::chrono::seconds(2));
                     }
 
                     std::cout << "Login kembali? (y/n)";
                     std::cin >> back_auth;
-                    if (back_auth == "n" || back_auth == "N") 
-                    {
-                      exit(66);
+                    if (back_auth == "n" || back_auth == "N") {
+                        exit(66);
                     }
-               } while (back_auth == "y" || back_auth == "Y");
+                } while (back_auth == "y" || back_auth == "Y");
+            } else {
+                std::cout << "Password invalid, minimal 8 karakter dan 1 huruf besar dan 1 angka"
+                          << std::endl;
             }
-            else 
-            {
-                std::cout << "Password invalid, minimal 8 karakter dan 1 huruf besar dan 1 angka" << std::endl;
-            }
-        }
-        else 
-        {
+        } else {
             std::cout << "Username invalid, minimal 8 karakter dan 1 angka" << std::endl;
         }
         std::cout << "Ingin Registrasi kembali? (y/n)? ";
         std::cin >> back;
-        if (back == "n" || back == "N") 
-        {
-          exit(66);
+        if (back == "n" || back == "N") {
+            exit(66);
         } else {
-          std::cout << "Bukan input yang diharapkan!";
-          exit(404);
+            std::cout << "Bukan input yang diharapkan!";
+            exit(404);
         }
     } while (back == "y" || back == "Y");
 }
 
-void CredentialAccess::LoginProgram() 
-{
+void CredentialAccess::LoginProgram() {
     std::string back;
 
-    do 
-    {
-    std::string user_verification; std::cout << "Username anda: ";
-    std::cin >> user_verification;
+    do {
+        std::string user_verification;
+        std::cout << "Username anda: ";
+        std::cin >> user_verification;
 
-    std::string pass_verification = getpass("Password anda: ");
+        std::string pass_verification = getpass("Password anda: ");
 
-    bool isVerified = VerifyUser(user_verification, pass_verification, collection_);
-    std::cout << "verifikasi account...\n";
-    std::this_thread::sleep_for(std::chrono::seconds(2));
+        bool isVerified = VerifyUser(user_verification, pass_verification, collection_);
+        std::cout << "verifikasi account...\n";
+        std::this_thread::sleep_for(std::chrono::seconds(2));
 
-        if (isVerified) 
-        {
+        if (isVerified) {
             std::cout << "\033[2J\033[1;1H";
             std::cout << "Verifikasi berhasil." << std::endl;
             std::cout << "Masuk program..." << std::endl;
             std::this_thread::sleep_for(std::chrono::seconds(1));
             break;
-        }
-        else 
-        {
+        } else {
             std::cout << "\033[2J\033[1;1H";
             std::cout << "Verifikasi gagal, username atau password tidak cocok." << std::endl;
             std::this_thread::sleep_for(std::chrono::seconds(2));
         }
         std::cout << "Login kembali? (y/n)";
         std::cin >> back;
-        if (back == "n" || back == "N") 
-        {
+        if (back == "n" || back == "N") {
             exit(66);
-        } 
-        else 
-        {
-          std::cout << "Bukan input yang diharapkan!";
-          exit(404);
+        } else {
+            std::cout << "Bukan input yang diharapkan!";
+            exit(404);
         }
     } while (back == "y" || back == "Y");
 }
